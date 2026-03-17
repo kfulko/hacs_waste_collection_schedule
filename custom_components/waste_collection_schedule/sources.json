@@ -4631,6 +4631,12 @@
       "id": "opendata_bordeauxmetropole_fr"
     },
     {
+      "title": "M\u00e9motri - Agglom\u00e9ration Pau B\u00e9arn Pyr\u00e9n\u00e9es",
+      "module": "memotri_agglo_pau_fr",
+      "default_params": {},
+      "id": "memotri_agglo_pau_fr"
+    },
+    {
       "title": "M\u00e9rignac",
       "module": "opendata_bordeauxmetropole_fr",
       "default_params": {
