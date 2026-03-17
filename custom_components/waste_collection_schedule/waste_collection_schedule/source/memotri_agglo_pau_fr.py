@@ -1,6 +1,7 @@
 import hashlib
 import re
 from datetime import date, timedelta
+from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
@@ -184,7 +185,8 @@ class Source:
         self._solve_challenge(session)
 
         # Fetch collection schedule page
-        url = f"{BASE_URL}/consignes-tri/{ban_id}/{label}/"
+        encoded_label = quote(label, safe="")
+        url = f"{BASE_URL}/consignes-tri/{ban_id}/{encoded_label}/"
         r = session.get(url, timeout=15)
         r.raise_for_status()
 
