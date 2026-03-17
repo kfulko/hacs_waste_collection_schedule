@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
-from dateutil.rrule import FR, MO, SA, SU, TH, TU, WE, WEEKLY, rrule
+from dateutil.rrule import FR, MO, SA, SU, TH, TU, WE, WEEKLY, rrule, weekday as RRuleWeekday
 from waste_collection_schedule import Collection
 from waste_collection_schedule.exceptions import (
     SourceArgumentException,
@@ -71,9 +71,10 @@ HOW_TO_GET_ARGUMENTS_DESCRIPTION = {
 
 class Source:
     def __init__(self, address: str):
-        if not address:
+        normalized_address = address.strip() if isinstance(address, str) else address
+        if not normalized_address:
             raise SourceArgumentRequired("address")
-        self._address = address
+        self._address = normalized_address
 
     def _resolve_address(self) -> tuple[str, str]:
         """Resolve address to BAN ID (UUID) and label using French gov API."""
@@ -128,25 +129,39 @@ class Source:
         prefix_match = re.search(r'startsWith\("(0+)"\)', r.text)
         prefix = prefix_match.group(1) if prefix_match else "0000"
 
+        # Determine an iteration budget based on prefix length, with an upper bound
+        max_iterations = min(50_000_000, 10 * (16 ** len(prefix)))
+
         # Solve proof-of-work
-        for i in range(50_000_000):
+        found = False
+        for i in range(max_iterations):
             h = hashlib.sha256((nonce + str(i)).encode()).hexdigest()
             if h.startswith(prefix):
+                found = True
                 break
 
+        if not found:
+            raise RuntimeError(
+                "Proof-of-work solution not found within iteration limit"
+            )
+
         # Submit solution
-        session.post(
+        response = session.post(
             BASE_URL + "/challenge",
             data={"challenge": str(i)},
             headers={"Referer": BASE_URL + "/challenge"},
             timeout=15,
             allow_redirects=True,
         )
+        response.raise_for_status()
+        if "Bot Detection" in response.text:
+            raise RuntimeError("Proof-of-work challenge was not accepted by the server")
 
-    def _parse_schedule(self, schedule_text: str) -> list[tuple[int, bool]]:
-        """Parse schedule text into list of (weekday, is_biweekly) tuples.
+    def _parse_schedule(self, schedule_text: str) -> list[tuple[RRuleWeekday, bool, bool]]:
+        """Parse schedule text into list of (weekday, is_biweekly, is_biweekly_odd) tuples.
 
-        Returns weekday constant and whether it's biweekly (odd or even week).
+        Returns a dateutil.rrule weekday constant, a flag indicating whether it's
+        biweekly (odd or even week), and a flag indicating whether it's an odd week.
         """
         text = schedule_text.lower().strip()
 
