@@ -13,6 +13,8 @@ TEST_CASES = {
     "Test_3": {"city": "Veszprémvarsány", "street": "Zrínyi utca", "house_number": 34},
 }
 
+API_URL = "https://gyhg.bluespot.hu/api/"
+
 ICON_MAP = {
     "leftover": "mdi:trash-can",
     "recycle": "mdi:recycle",
@@ -26,7 +28,7 @@ NAME_MAP = {
 }
 
 HOW_TO_GET_ARGUMENTS_DESCRIPTION = {
-    "en": "Select the desired address on the https://www.gyhg.hu/hulladeknaptar#/ website. The town, street name and house number must be entered in this integration in the exact same format as they appear there.",
+    "en": "Select the desired address on the https://www.gyhg.hu/hulladeknaptar#/ website. The town, street name, and house number must be entered in this integration in the exact same format as they appear there.",
 }
 
 PARAM_DESCRIPTIONS = {
@@ -58,7 +60,7 @@ class Source:
 
         session = requests.Session()
         raw_json = session.get(
-            f"https://gyhg.bluespot.hu/api/get_schedule?city_name={self._city}&street={self._street}&house_number={self._house_number}")
+            API_URL + f"get_schedule?city_name={self._city}&street={self._street}&house_number={self._house_number}")
         raw_json.raise_for_status()
         parsed_data = json.loads(raw_json.text)["data"]
 
