@@ -1319,6 +1319,13 @@
     "howto": {},
     "urls": {}
   },
+  "gyhg_hu": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/gyhg_hu.md",
+    "howto": {
+      "en": "Select the desired address on the https://www.gyhg.hu/hulladeknaptar#/ website. The town, street name, and house number must be entered in this integration in the exact same format as they appear there."
+    },
+    "urls": {}
+  },
   "mohu_bp_hu": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/mohu_bp_hu.md",
     "howto": {},

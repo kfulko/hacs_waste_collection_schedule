@@ -10232,6 +10232,12 @@
       "id": "fkf_bo_hu"
     },
     {
+      "title": "Gy\u0151ri Hullad\u00e9kgazd\u00e1lkod\u00e1si Nonprofit Kft.",
+      "module": "gyhg_hu",
+      "default_params": {},
+      "id": "gyhg_hu"
+    },
+    {
       "title": "MOHU Budapest",
       "module": "mohu_bp_hu",
       "default_params": {},

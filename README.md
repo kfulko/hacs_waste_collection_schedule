@@ -1554,6 +1554,7 @@ If your service provider is not listed, feel free to open a [source request issu
 <summary>Hungary</summary>
 
 - [FKF Budaörs](/doc/source/fkf_bo_hu.md) / fkf.hu
+- [Győri Hulladékgazdálkodási Nonprofit Kft.](/doc/source/gyhg_hu.md) / gyhg.hu
 - [MOHU Budapest](/doc/source/mohu_bp_hu.md) / mohubudapest.hu
 - [ÉTH (Érd, Diósd, Nagytarcsa, Sóskút, Tárnok)](/doc/source/eth_erd_hu.md) / eth-erd.hu
 </details>
