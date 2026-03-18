@@ -53,7 +53,10 @@ class Source:
         soup = BeautifulSoup(r.text, features="html.parser")
 
         # Stockton migrated this form to a V2 name (and action URL includes pageSessionId)
-        form = soup.find("form", attrs={"id": "LOOKUPBINDATESBYADDRESSSKIPOUTOFREGIONV2_FORM"})
+        form = soup.find(
+            "form",
+            attrs={"id": "LOOKUPBINDATESBYADDRESSSKIPOUTOFREGIONV2_FORM"},
+        )
         if not form or not form.get("action"):
             raise ValueError("Could not find LOOKUPBINDATESBYADDRESSSKIPOUTOFREGIONV2_FORM or action")
         form_url = form["action"]
