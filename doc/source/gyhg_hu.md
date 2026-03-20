@@ -27,7 +27,7 @@ waste_collection_schedule:
 ```yaml
 waste_collection_schedule:
     sources:
-    - name: fkf_bo_hu
+    - name: gyhg_hu
       args:
         city: "Écs"
         street: "Ady Endre utca"
