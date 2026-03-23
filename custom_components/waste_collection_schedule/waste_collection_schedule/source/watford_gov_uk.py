@@ -1,10 +1,14 @@
 import re
 import time
+from datetime import date
 from html import unescape
 
 import requests
 from waste_collection_schedule import Collection
-from waste_collection_schedule.exceptions import SourceArgumentException
+from waste_collection_schedule.exceptions import (
+    SourceArgumentException,
+    SourceArgumentExceptionMultiple,
+)
 
 TITLE = "Watford Borough Council"
 DESCRIPTION = "Source for waste collection services for Watford Borough Council"
@@ -55,7 +59,10 @@ class Source:
         self._session = requests.Session()
 
         if not self._uprn and not self._address:
-            raise SourceArgumentRequired("uprn")
+            raise SourceArgumentExceptionMultiple(
+                ["uprn", "address"],
+                "Either uprn or address must be provided.",
+            )
 
     def _init_session(self) -> str:
         r = self._session.get(INITIAL_URL)
@@ -87,15 +94,18 @@ class Source:
             )
         return transformed
 
-    def _resolve_identifiers(self, sid: str) -> tuple[str, str]:
+    def _resolve_identifiers(self, sid: str) -> tuple[str, str, str]:
         address_token = self._address or self._uprn
         uprn_value = self._uprn or self._address
+        # Normalise UPRN once: strip leading zeros for the echoUprn field and
+        # reuse the same normalised value in all subsequent lookups.
+        normalised_uprn = str(uprn_value).lstrip("0")
         transformed = self._run_lookup(
             sid,
             LOOKUP_ADDRESS_POINT,
             {
                 "Address": {
-                    "echoUprn": {"value": str(uprn_value).lstrip("0")},
+                    "echoUprn": {"value": normalised_uprn},
                     "address": {"value": str(address_token)},
                 }
             },
@@ -104,7 +114,7 @@ class Source:
         echo_address_point = row.get("echoAddressPoint")
         if not echo_address_point:
             raise ValueError("Watford source could not resolve echoAddressPoint")
-        return str(address_token), str(echo_address_point)
+        return str(address_token), normalised_uprn, str(echo_address_point)
 
     def _fetch_collections(self, sid: str, address_token: str, uprn_value: str, echo_address_point: str) -> dict:
         return self._run_lookup(
@@ -154,7 +164,7 @@ class Source:
 
             entries.append(
                 Collection(
-                    date=f"{year}-{month}-{day}",
+                    date=date(int(year), int(month), int(day)),
                     t=waste_type,
                     icon=icon,
                 )
@@ -164,34 +174,25 @@ class Source:
 
     def fetch(self) -> list[Collection]:
         sid = self._init_session()
-        address_token, echo_address_point = self._resolve_identifiers(sid)
-        uprn_value = self._uprn or address_token
+        address_token, uprn_value, echo_address_point = self._resolve_identifiers(sid)
 
-        collections_data = self._fetch_collections(sid, address_token, str(uprn_value), echo_address_point)
-        calendar_data = self._fetch_calendar(sid, address_token, str(uprn_value), echo_address_point)
+        collections_data = self._fetch_collections(sid, address_token, uprn_value, echo_address_point)
 
         row = collections_data.get("rows_data", {}).get("0", {})
         html_text = row.get("dispHTML", "")
         entries = self._extract_collections_from_html(html_text)
 
-        # Calendar lookup currently returns values like "Wednesday Wk A". We fetch it so
-        # the integration path stays aligned with Watford's form flow, even though only the
-        # collection entries are returned from this source.
-        calendar = calendar_data.get("rows_data", {}).get("0", {}).get("calendar")
-
         if entries:
             return entries
 
+        # Only fetch the calendar when needed (to diagnose why no entries were returned).
         if row.get("lastCollection") == "NaN-aN-aN":
+            calendar_data = self._fetch_calendar(sid, address_token, uprn_value, echo_address_point)
+            calendar = calendar_data.get("rows_data", {}).get("0", {}).get("calendar")
             raise SourceArgumentException(
                 "uprn",
                 f"Watford did not return collection data for this property token (calendar: {calendar or 'unknown'}).",
             )
-
-        raise SourceArgumentException(
-            "uprn",
-            "Watford returned an unexpected response for this property token.",
-        )
 
         raise SourceArgumentException(
             "uprn",
