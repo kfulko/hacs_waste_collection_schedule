@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+import logging
 from time import sleep
 
 import requests
