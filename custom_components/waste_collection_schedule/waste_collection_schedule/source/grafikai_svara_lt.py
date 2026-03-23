@@ -3,6 +3,7 @@ from datetime import datetime
 
 import requests
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
+from waste_collection_schedule.exceptions import SourceArgumentException
 
 TITLE = "Kauno švara"
 DESCRIPTION = 'Source for UAB "Kauno švara".'
@@ -47,7 +48,15 @@ class Source:
         self._street = street
         self._house_number = house_number
         self._district = district
-        self._waste_object_ids = [int(x) for x in waste_object_ids]
+        try:
+            self._waste_object_ids = [
+                int(x) for x in waste_object_ids if str(x).strip()
+            ]
+        except (ValueError, TypeError):
+            raise SourceArgumentException(
+                "waste_object_ids",
+                "waste_object_ids must be a list of numeric values",
+            )
 
     def fetch(self):
 
