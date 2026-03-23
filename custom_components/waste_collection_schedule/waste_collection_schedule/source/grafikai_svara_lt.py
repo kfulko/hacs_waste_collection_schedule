@@ -34,7 +34,12 @@ class Source:
     API_URL = "https://grafikai.svara.lt/api/"
 
     def __init__(
-        self, region, street, house_number, district=None, waste_object_ids=None
+        self,
+        region: str,
+        street: str,
+        house_number: str,
+        district: str | None = None,
+        waste_object_ids: list[str | int] | None = None,
     ):
         if waste_object_ids is None:
             waste_object_ids = []
