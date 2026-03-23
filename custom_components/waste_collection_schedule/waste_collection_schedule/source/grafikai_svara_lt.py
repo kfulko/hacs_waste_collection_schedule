@@ -42,7 +42,7 @@ class Source:
         self._street = street
         self._house_number = house_number
         self._district = district
-        self._waste_object_ids = waste_object_ids
+        self._waste_object_ids = [int(x) for x in waste_object_ids]
 
     def fetch(self):
 
