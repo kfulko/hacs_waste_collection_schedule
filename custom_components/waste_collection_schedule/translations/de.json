@@ -12468,6 +12468,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Hausnummer",
+          "language": "Language",
           "street": "Straße",
           "town": "Stadt"
         },
@@ -12490,6 +12491,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Hausnummer",
+          "language": "Language",
           "street": "Straße",
           "town": "Stadt"
         },
