@@ -163,7 +163,8 @@ class Source:
             raw = pickup[1].strip().lower()
             waste_type = remap_wastes.get(raw)
             if waste_type is None:
-                continue  # skip unknown waste types
+                _LOGGER.warning("Unknown waste type '%s' — skipping", raw)
+                continue
             entries.append(
                 Collection(
                     date=waste_date,
