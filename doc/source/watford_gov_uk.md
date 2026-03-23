@@ -1,6 +1,6 @@
 # Watford Borough Council
 
-**Configuration via configuration.yaml**
+## Configuration via configuration.yaml
 
 ```yaml
 waste_collection_schedule:
@@ -10,9 +10,9 @@ waste_collection_schedule:
         uprn: "100080945713"
 ```
 
-## Configuration Variables
+### Configuration Variables
 
-**uprn** *(string, required)*
+**uprn** *(string, required unless `address` is provided; recommended)*
 
 Property UPRN / selected address token from the Watford bin collections form.
 
