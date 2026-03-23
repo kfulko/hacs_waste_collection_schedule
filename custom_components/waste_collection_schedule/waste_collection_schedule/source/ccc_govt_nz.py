@@ -99,13 +99,27 @@ class Source:
         _LOGGER.debug("Overrides processing complete")
 
         _LOGGER.debug("Processing bins...")
+        today = datetime.date.today()
         for bin in bins:
+            if bin.get("pick_up_group") in ("Daily", "Not Collected"):
+                _LOGGER.debug("Skipping bin %s with pick_up_group %s", bin["material"], bin.get("pick_up_group"))
+                continue
+
             _LOGGER.debug("Processing bin %s", bin)
+            collection_date = datetime.datetime.strptime(
+                bin["next_planned_date_app"], "%Y-%m-%d"
+            ).date()
+
+            # The API can return stale dates. Advance past dates forward
+            # by the collection interval until they are in the future.
+            # Organic is collected weekly, all others fortnightly.
+            interval_weeks = 1 if bin["material"] == "Organic" else 2
+            while collection_date < today:
+                collection_date += datetime.timedelta(weeks=interval_weeks)
+
             entries.append(
                 Collection(
-                    date=datetime.datetime.strptime(
-                        bin["next_planned_date_app"], "%Y-%m-%d"
-                    ).date(),
+                    date=collection_date,
                     t=bin["material"],
                     icon=ICON_MAP.get(bin["material"]),
                 )
