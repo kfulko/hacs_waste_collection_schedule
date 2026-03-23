@@ -14,7 +14,10 @@ TEST_CASES = {
     "11 Maun View Gardens, Sutton-in-Ashfield": {"uprn": 10001336299},
     "101 Main Street, Huthwaite": {"post_code": "NG17 2LQ", "uprn": "100031253415"},
     "1 Acacia Avenue, Kirkby-in-Ashfield": {"post_code": "NG17 9BH", "number": "1"},
-    "Council Offices, Kirkby-in-Ashfield": {"post_code": "NG178ZA", "name": "COUNCIL OFFICES"}
+    "Council Offices, Kirkby-in-Ashfield": {
+        "post_code": "NG178ZA",
+        "name": "COUNCIL OFFICES",
+    },
 }
 
 API_URLS = {
@@ -46,45 +49,61 @@ class Source:
 
     def fetch(self):
         if not self._uprn:
+            if not self._post_code:
+                raise ValueError("post_code is required when uprn is not provided")
+            if not (self._name or self._number):
+                raise ValueError(
+                    "Either name or number must be provided when uprn is not provided"
+                )
             # look up the UPRN for the address
-            q = str(API_URLS["address_search"]).format(
-                postcode=self._post_code)
-            r = requests.get(q)
+            q = str(API_URLS["address_search"]).format(postcode=self._post_code)
+            r = requests.get(q, timeout=30)
             r.raise_for_status()
             addresses = r.json()["results"]
 
             if not addresses:
                 raise SourceArgumentNotFound("post_code", self._post_code)
 
+            matching = []
             if self._name:
-                matching = [
-                    x for x in addresses if x["DPA"].get("BUILDING_NAME") and x["DPA"].get("BUILDING_NAME").capitalize() == self._name.capitalize()
-                ]
-                if matching:
-                    self._uprn = int(matching[0]["DPA"]["UPRN"])
+                name_cf = self._name.casefold()
+                for x in addresses:
+                    dpa = x.get("DPA") or {}
+                    building_name = dpa.get("BUILDING_NAME")
+                    if building_name and building_name.casefold() == name_cf:
+                        matching.append(x)
             elif self._number:
-                matching = [
-                    x for x in addresses if x["DPA"].get("BUILDING_NUMBER") == self._number
-                ]
-                if matching:
-                    self._uprn = int(matching[0]["DPA"]["UPRN"])
+                for x in addresses:
+                    dpa = x.get("DPA") or {}
+                    if dpa.get("BUILDING_NUMBER") == self._number:
+                        matching.append(x)
+
+            if matching:
+                first_dpa = matching[0].get("DPA") or {}
+                uprn_value = first_dpa.get("UPRN")
+                if uprn_value:
+                    self._uprn = int(uprn_value)
 
             if not self._uprn:
                 raise SourceArgumentNotFoundWithSuggestions(
-                    argument="address",
-                    value=f"{self._post_code} {self._number or self._name}",
-                    suggestions=[f"{x['DPA'].get('BUILDING_NUMBER', '')} {x['DPA'].get('BUILDING_NAME', '')}".strip(
-                    ) for x in addresses]
+                    argument=(
+                        "name"
+                        if self._name
+                        else "number" if self._number else "post_code"
+                    ),
+                    value=self._name or self._number or self._post_code,
+                    suggestions=[
+                        f"{(x.get('DPA') or {}).get('BUILDING_NUMBER', '')} {(x.get('DPA') or {}).get('BUILDING_NAME', '')}".strip()
+                        for x in addresses
+                    ],
                 )
         else:
             # Ensure UPRN is an integer
             self._uprn = int(self._uprn)
 
-        q = str(API_URLS["collection"]).format(
-            uprn=self._uprn
-        )
+        q = str(API_URLS["collection"]).format(uprn=self._uprn)
 
-        r = requests.get(q)
+        r = requests.get(q, timeout=30)
         r.raise_for_status()
 
         collections = r.json()["collections"]
@@ -97,8 +116,8 @@ class Source:
                         date=datetime.datetime.strptime(
                             collection["date"], "%d/%m/%Y %H:%M:%S"
                         ).date(),
-                        t=NAMES.get(collection["service"]),
-                        icon=ICON_MAP.get(collection["service"])
+                        t=NAMES.get(collection["service"], collection["service"]),
+                        icon=ICON_MAP.get(collection["service"]),
                     )
                 )
 

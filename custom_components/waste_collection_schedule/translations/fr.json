@@ -14189,8 +14189,8 @@
         "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
         "data": {
           "calendar_title": "Titre du Calendrier",
-          "name": "Name",
-          "number": "Number",
+          "name": "Nom",
+          "number": "Numéro",
           "post_code": "Code Postal",
           "uprn": "UPRN"
         },
@@ -14204,8 +14204,8 @@
         "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
         "data": {
           "calendar_title": "Titre du Calendrier",
-          "name": "Name",
-          "number": "Number",
+          "name": "Nom",
+          "number": "Numéro",
           "post_code": "Code Postal",
           "uprn": "UPRN"
         },
