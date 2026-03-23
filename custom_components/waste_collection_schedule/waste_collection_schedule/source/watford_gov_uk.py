@@ -27,6 +27,7 @@ LOOKUP_ADDRESS_POINT = "5e57d2f638e6d"
 LOOKUP_NEXT_COLLECTIONS = "5e79edf15b2ec"
 LOOKUP_CALENDAR = "6750598d8b177"
 FORM_ID = "AF-Form-a139d516-46fc-4e1d-a94e-5e072681bcf0"
+REQUEST_TIMEOUT = 30
 
 ICON_MAP = {
     "garden": "mdi:leaf",
@@ -65,7 +66,7 @@ class Source:
             )
 
     def _init_session(self) -> str:
-        r = self._session.get(INITIAL_URL)
+        r = self._session.get(INITIAL_URL, timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
         match = re.search(r'"auth-session":"([^"]+)"', r.text)
         if not match:
@@ -84,7 +85,7 @@ class Source:
             "sid": sid,
         }
         payload = {"formId": FORM_ID, "formValues": form_values}
-        r = self._session.post(API_URL, params=params, json=payload)
+        r = self._session.post(API_URL, params=params, json=payload, timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
         data = r.json()
         transformed = data.get("integration", {}).get("transformed", {})
@@ -185,16 +186,19 @@ class Source:
         if entries:
             return entries
 
+        # Report errors against whichever argument the user actually configured.
+        arg = "uprn" if self._uprn else "address"
+
         # Only fetch the calendar when needed (to diagnose why no entries were returned).
         if row.get("lastCollection") == "NaN-aN-aN":
             calendar_data = self._fetch_calendar(sid, address_token, uprn_value, echo_address_point)
             calendar = calendar_data.get("rows_data", {}).get("0", {}).get("calendar")
             raise SourceArgumentException(
-                "uprn",
+                arg,
                 f"Watford did not return collection data for this property token (calendar: {calendar or 'unknown'}).",
             )
 
         raise SourceArgumentException(
-            "uprn",
+            arg,
             "Watford returned an unexpected response for this property token.",
         )
