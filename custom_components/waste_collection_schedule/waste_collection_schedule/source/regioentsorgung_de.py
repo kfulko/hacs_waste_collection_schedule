@@ -35,24 +35,33 @@ PARAM_TRANSLATIONS = {
 class FormStateParser(HTMLParser):
     def __init__(self):
         super().__init__()
-        self.hidden_inputs = {}
         self.select_options = {}
         self._current_select = None
         self._current_option_value = None
         self._current_option_text = []
 
+    def _finalize_option(self):
+        if self._current_select is None or self._current_option_value is None:
+            return
+
+        text = " ".join(part.strip() for part in self._current_option_text).strip()
+        self.select_options[self._current_select].append(
+            (self._current_option_value or "", text)
+        )
+        self._current_option_value = None
+        self._current_option_text = []
+
+    def finalize(self):
+        self._finalize_option()
+
     def handle_starttag(self, tag, attrs):
         attributes = dict(attrs)
-        if tag == "input":
-            if (
-                str(attributes.get("type", "")).lower() == "hidden"
-                and "name" in attributes
-            ):
-                self.hidden_inputs[attributes["name"]] = attributes.get("value", "")
-        elif tag == "select" and "name" in attributes:
+        if tag == "select" and "name" in attributes:
+            self._finalize_option()
             self._current_select = attributes["name"]
             self.select_options.setdefault(self._current_select, [])
         elif tag == "option" and self._current_select is not None:
+            self._finalize_option()
             self._current_option_value = attributes.get("value", "")
             self._current_option_text = []
 
@@ -61,14 +70,10 @@ class FormStateParser(HTMLParser):
             self._current_option_text.append(data)
 
     def handle_endtag(self, tag):
-        if tag == "option" and self._current_select is not None:
-            text = " ".join(part.strip() for part in self._current_option_text).strip()
-            self.select_options[self._current_select].append(
-                (self._current_option_value or "", text)
-            )
-            self._current_option_value = None
-            self._current_option_text = []
+        if tag == "option":
+            self._finalize_option()
         elif tag == "select":
+            self._finalize_option()
             self._current_select = None
 
     def get_options(self, field_name):
@@ -82,6 +87,8 @@ class FormStateParser(HTMLParser):
 def parse_form_state(content):
     parser = FormStateParser()
     parser.feed(content)
+    parser.finalize()
+    parser.close()
     return parser
 
 
