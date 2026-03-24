@@ -44,6 +44,8 @@ class Source:
     ):
         if waste_object_ids is None:
             waste_object_ids = []
+        if isinstance(waste_object_ids, (str, int)):
+            waste_object_ids = [waste_object_ids]
         self._region = region
         self._street = street
         self._house_number = house_number
