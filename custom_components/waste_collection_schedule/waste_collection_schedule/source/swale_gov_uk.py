@@ -6,6 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
 
+_LOGGER = logging.getLogger(__name__)
+
 TITLE = "Swale Borough Council"
 DESCRIPTION = "Source for swale.gov.uk services for Swale, UK."
 URL = "https://swale.gov.uk"
