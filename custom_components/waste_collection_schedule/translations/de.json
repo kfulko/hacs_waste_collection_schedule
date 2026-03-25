@@ -14265,10 +14265,14 @@
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
         "data": {
           "calendar_title": "Kalender Titel",
-          "address": "Addresse"
+          "name": "Name",
+          "number": "Nummer",
+          "post_code": "PLZ",
+          "uprn": "UPRN"
         },
         "data_description": {
-          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet."
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet.",
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
         }
       },
       "reconfigure_ashfield_gov_uk": {
@@ -14276,9 +14280,14 @@
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
         "data": {
           "calendar_title": "Kalender Titel",
-          "address": "Addresse"
+          "name": "Name",
+          "number": "Nummer",
+          "post_code": "PLZ",
+          "uprn": "UPRN"
         },
-        "data_description": {}
+        "data_description": {
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+        }
       },
       "args_ashford_gov_uk": {
         "title": "Quelle konfigurieren",

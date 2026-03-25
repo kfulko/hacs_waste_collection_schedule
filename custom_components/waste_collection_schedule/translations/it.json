@@ -14198,10 +14198,14 @@
         "description": "Compila i campi per ottenere le informazioni sul tuo servizio di raccolta. {howto}Maggiori informazioni: {docs_url}.",
         "data": {
           "calendar_title": "Nome Calendario",
-          "address": "Indirizzo"
+          "name": "Nome",
+          "number": "Numero",
+          "post_code": "Codice Postale CAP",
+          "uprn": "UPRN"
         },
         "data_description": {
-          "calendar_title": "Puoi cambiare il nome del calendario della raccolta dei rifiuti, altrimenti di default verra' utilizzato il nome del tuo fornitore di servizi."
+          "calendar_title": "Puoi cambiare il nome del calendario della raccolta dei rifiuti, altrimenti di default verra' utilizzato il nome del tuo fornitore di servizi.",
+          "uprn": "Un modo facile per scoprire il tuo Numero di Riferimento Proprietà Unica (UPRN) è andare su {url_www_findmyaddress_co_uk} e inserire i dettagli del tuo indirizzo."
         }
       },
       "reconfigure_ashfield_gov_uk": {
@@ -14209,9 +14213,14 @@
         "description": "Compila i campi per ottenere le informazioni sul tuo servizio di raccolta. {howto}Per maggiori informazioni: {docs_url}.",
         "data": {
           "calendar_title": "Nome Calendario",
-          "address": "Indirizzo"
+          "name": "Nome",
+          "number": "Numero",
+          "post_code": "Codice Postale CAP",
+          "uprn": "UPRN"
         },
-        "data_description": {}
+        "data_description": {
+          "uprn": "Un modo facile per scoprire il tuo Numero di Riferimento Proprietà Unica (UPRN) è andare su {url_www_findmyaddress_co_uk} e inserire i dettagli del tuo indirizzo."
+        }
       },
       "args_ashford_gov_uk": {
         "title": "Configurazione Sorgente",
