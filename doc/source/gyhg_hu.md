@@ -6,11 +6,11 @@ Support for schedules provided by [Győri Hulladékgazdálkodási Nonprofit Kft.
 ```yaml
 waste_collection_schedule:
     sources:
-    - name: gyhg_hu
-      args:
-        city: CITY_NAME
-        street: FULL_STREET_NAME
-        house_number: HOUSE_NUMBER
+      - name: gyhg_hu
+        args:
+          city: CITY_NAME
+          street: FULL_STREET_NAME
+          house_number: HOUSE_NUMBER
 ```
 
 ### Configuration Variables
@@ -27,11 +27,11 @@ waste_collection_schedule:
 ```yaml
 waste_collection_schedule:
     sources:
-    - name: gyhg_hu
-      args:
-        city: "Écs"
-        street: "Ady Endre utca"
-        house_number: "1/A"
+      - name: gyhg_hu
+        args:
+          city: "Écs"
+          street: "Ady Endre utca"
+          house_number: "1/A"
 ```
 
 ## How to get the source arguments

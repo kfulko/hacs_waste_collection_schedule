@@ -1,6 +1,7 @@
-import json
-import requests
 from datetime import datetime
+import json
+
+import requests
 from waste_collection_schedule import Collection
 
 TITLE = "Győri Hulladékgazdálkodási Nonprofit Kft."
@@ -51,8 +52,10 @@ PARAM_TRANSLATIONS = {
 
 
 class Source:
-    def __init__(self, city: str, street: str, house_number: str):
+    def __init__(self, city: str, street: str, house_number: str | int):
         self._city = city
+        self._street = street
+        self._house_number = str(house_number)
         self._street = street
         self._house_number = house_number
 
@@ -60,7 +63,14 @@ class Source:
 
         session = requests.Session()
         raw_json = session.get(
-            API_URL + f"get_schedule?city_name={self._city}&street={self._street}&house_number={self._house_number}")
+            API_URL + "get_schedule",
+            params={
+                "city_name": self._city,
+                "street": self._street,
+                "house_number": self._house_number,
+            },
+            timeout=10,
+        )
         raw_json.raise_for_status()
         parsed_data = json.loads(raw_json.text)["data"]
 
@@ -73,8 +83,8 @@ class Source:
                         Collection(
                             date=datetime.strptime(
                                 date_str, "%Y-%m-%d").date(),
-                            t=NAME_MAP.get(waste),
-                            icon=ICON_MAP.get(waste),
+                            t=NAME_MAP.get(waste, waste),
+                            icon=ICON_MAP.get(waste, "mdi:trash-can"),
                         )
                     )
 
