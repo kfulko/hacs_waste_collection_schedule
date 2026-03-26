@@ -152,6 +152,6 @@ class Source:
         entries = []
         for d in dates:
             bin_type = d[1].replace("Abfuhr", "").strip()
-            entries.append(Collection(d[0], bin_type, ICON_MAP.get(bin_type)))
+            entries.append(Collection(d[0], str(bin_type).replace(' *', ''), ICON_MAP.get(bin_type)))
 
         return entries
