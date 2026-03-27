@@ -111,8 +111,8 @@ class Source:
             ).date()
 
             # The API can return stale dates. Advance past dates forward
-            # by the collection interval until they are in the future.
-            # Organic is collected weekly, all others fortnightly.
+            # by the collection interval until they are no longer in the past
+            # (i.e., on or after today). Organic is collected weekly, all others fortnightly.
             interval_weeks = 1 if bin["material"] == "Organic" else 2
             while collection_date < today:
                 collection_date += datetime.timedelta(weeks=interval_weeks)
