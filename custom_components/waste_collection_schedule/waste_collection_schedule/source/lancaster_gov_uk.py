@@ -20,8 +20,19 @@ ICON_MAP = {
     "Recycling": "mdi:recycle",
     "Food Waste": "mdi:food",
 }
+SUFFIXES = (
+    " Collection Service",
+    " Collection - refer to calendar for stream",
+)
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _clean_collection_type(type_text: str) -> str:
+    for suffix in SUFFIXES:
+        if type_text.endswith(suffix):
+            return type_text[: -len(suffix)].strip()
+    return type_text.strip()
 
 
 class Source:
@@ -84,13 +95,8 @@ class Source:
                 dt = datetime.strptime(date_text, "%d/%m/%Y").date()
                 collection_type = next(
                     (key for key in ICON_MAP if type_text.startswith(key)),
-                    None,
+                    _clean_collection_type(type_text),
                 )
-                if collection_type is None:
-                    _LOGGER.info(
-                        f"Skipped {type_text} as no known collection type matched"
-                    )
-                    continue
                 entries.append(
                     Collection(
                         date=dt,
@@ -99,5 +105,5 @@ class Source:
                     )
                 )
             except ValueError:
-                _LOGGER.info(f"Skipped {date_text} as it does not match time format")
+                _LOGGER.info(f"Skipped {date_text} as it does not match date format")
         return entries
