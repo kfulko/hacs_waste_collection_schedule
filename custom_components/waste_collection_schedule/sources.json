@@ -5556,6 +5556,12 @@
       "id": "abfallwirtschaft_vechta_de"
     },
     {
+      "title": "AWB Ammerland",
+      "module": "awb_ammerland_de",
+      "default_params": {},
+      "id": "awb_ammerland_de"
+    },
+    {
       "title": "AWB Bad Kreuznach",
       "module": "awb_bad_kreuznach_de",
       "default_params": {},
