@@ -65,7 +65,7 @@ class Source:
         resp.raise_for_status()
         data = resp.json()
         if data.get("result") == "logout":
-            raise Exception("Session expired or invalid. Try again.")
+            raise RuntimeError("Session expired or invalid. Try again.")
         rows = (
             data.get("integration", {})
             .get("transformed", {})
