@@ -188,7 +188,7 @@ class Source:
             sd = max(candidates, key=lambda e: e["jahr"])
 
         # --- Resolve AST number for Kal2 lookup ---
-        # Kal2 uses an "ast" area code. Look it up from Astdat (part5).
+        # Kal2 uses an "ast" area code. Look it up from Astdat (part 5, i.e. parts[4]).
         # First try the exact section (strgrid), then fall back to astgrid=0
         # (street-level entry used when no section-specific ast exists).
         ast_entry = next(
