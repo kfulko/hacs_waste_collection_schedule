@@ -111,7 +111,7 @@ class Source:
         # 0=Str (streets), 1=Strgr (street sections), 2=Astgr,
         # 3=Strdat (schedule), 4=Astdat (ast mapping),
         # 5=Kal1 (daily reference), 6=Kal2 (Sperrmüll/Ast),
-        # 5=Kal1, 7=Kal3 (Problemstoffe), 8=Fkal (holiday shifts)
+        # 7=Kal3 (Problemstoffe), 8=Fkal (holiday shifts)
         streets = parts[0]
         strgr = parts[1]  # street sections
         strdat = parts[3]  # yearly schedule per street/section
