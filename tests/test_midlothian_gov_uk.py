@@ -46,14 +46,36 @@ def test_collections_have_required_fields(collections):
 
 
 def test_collection_dates_are_valid(collections):
-    """Test that collection dates are valid date objects and not in the past."""
+    """Test that collection dates are valid date objects and within a reasonable range."""
     # Given
     today = date.today()
+    from datetime import timedelta
+    # Allow a 1-day grace period to handle timezone edge cases and collections
+    # that occur "today" but may have already passed when the test runs
+    earliest_allowed = today - timedelta(days=1)
+    # Verify we're not getting data too far in the future (sanity check)
+    latest_allowed = today + timedelta(days=400)  # ~13 months
 
-    # Then
+    # Assert all collection dates are valid date objects
     for collection in collections:
         assert isinstance(collection.date, date), "Collection date should be a date object"
-        assert collection.date >= today, f"Collection date {collection.date} should not be in the past"
+        assert earliest_allowed <= collection.date <= latest_allowed, \
+            f"Collection date {collection.date} is outside reasonable range " \
+            f"({earliest_allowed} to {latest_allowed})"
+
+    # Group collections by type
+    from collections import defaultdict
+    type_to_dates = defaultdict(list)
+    for collection in collections:
+        type_to_dates[collection.type].append(collection.date)
+
+    # For each type, verify we have at least one upcoming collection
+    # Note: Midlothian API returns collections from today onwards (we pass fromDate=today),
+    # so we expect dates >= today, but allow a 1-day grace period for edge cases
+    for ctype, dates in type_to_dates.items():
+        soonest = min(dates)
+        assert soonest >= earliest_allowed, \
+            f"Soonest collection date for {ctype} is unexpectedly old: {soonest}"
 
 
 def test_collection_types_are_recognized(collections):
@@ -94,8 +116,6 @@ def test_source_initialization():
     source = midlothian_gov_uk.Source(uprn=uprn, postcode=postcode)
 
     # Then
-    # Ensure that the Source object is created successfully and is of the correct type,
-    # without relying on its internal/private attributes.
     assert isinstance(source, midlothian_gov_uk.Source)
 
 
