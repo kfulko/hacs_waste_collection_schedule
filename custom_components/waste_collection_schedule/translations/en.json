@@ -6133,6 +6133,37 @@
         },
         "data_description": {}
       },
+      "args_awb_ammerland_de": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "city": "City",
+          "four_weekly_rest": "4-weekly residual waste collection",
+          "street": "Street",
+          "street_section": "Street section"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "four_weekly_rest": "Enable if a 4-weekly collection interval for residual waste has been requested.",
+          "street_section": "Only required if the street is divided into sections (e.g. 'nördl.d. A 28')."
+        }
+      },
+      "reconfigure_awb_ammerland_de": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "city": "City",
+          "four_weekly_rest": "4-weekly residual waste collection",
+          "street": "Street",
+          "street_section": "Street section"
+        },
+        "data_description": {
+          "four_weekly_rest": "Enable if a 4-weekly collection interval for residual waste has been requested.",
+          "street_section": "Only required if the street is divided into sections (e.g. 'nördl.d. A 28')."
+        }
+      },
       "args_awb_bad_kreuznach_de": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",

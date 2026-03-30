@@ -6026,6 +6026,32 @@
         },
         "data_description": {}
       },
+      "args_awb_ammerland_de": {
+        "title": "Configurazione Sorgente",
+        "description": "Compila i campi per ottenere le informazioni sul tuo servizio di raccolta. {howto}Maggiori informazioni: {docs_url}.",
+        "data": {
+          "calendar_title": "Nome Calendario",
+          "city": "Città",
+          "four_weekly_rest": "Four Weekly Rest",
+          "street": "Strada",
+          "street_section": "Street Section"
+        },
+        "data_description": {
+          "calendar_title": "Puoi cambiare il nome del calendario della raccolta dei rifiuti, altrimenti di default verra' utilizzato il nome del tuo fornitore di servizi."
+        }
+      },
+      "reconfigure_awb_ammerland_de": {
+        "title": "Riconfigurazione Sorgente",
+        "description": "Compila i campi per ottenere le informazioni sul tuo servizio di raccolta. {howto}Per maggiori informazioni: {docs_url}.",
+        "data": {
+          "calendar_title": "Nome Calendario",
+          "city": "Città",
+          "four_weekly_rest": "Four Weekly Rest",
+          "street": "Strada",
+          "street_section": "Street Section"
+        },
+        "data_description": {}
+      },
       "args_awb_bad_kreuznach_de": {
         "title": "Configurazione Sorgente",
         "description": "Compila i campi per ottenere le informazioni sul tuo servizio di raccolta. {howto}Maggiori informazioni: {docs_url}.",

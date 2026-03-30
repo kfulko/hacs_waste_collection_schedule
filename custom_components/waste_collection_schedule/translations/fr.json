@@ -6024,6 +6024,32 @@
         },
         "data_description": {}
       },
+      "args_awb_ammerland_de": {
+        "title": "Configurer la Source",
+        "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
+        "data": {
+          "calendar_title": "Titre du Calendrier",
+          "city": "City",
+          "four_weekly_rest": "Four Weekly Rest",
+          "street": "Street",
+          "street_section": "Street Section"
+        },
+        "data_description": {
+          "calendar_title": "Un nom plus lisible ou convivial pour le calendrier des déchets. Si aucun n'est fourni, le nom renvoyé par la source sera utilisé."
+        }
+      },
+      "reconfigure_awb_ammerland_de": {
+        "title": "Reconfigurer la Source",
+        "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
+        "data": {
+          "calendar_title": "Titre du Calendrier",
+          "city": "City",
+          "four_weekly_rest": "Four Weekly Rest",
+          "street": "Street",
+          "street_section": "Street Section"
+        },
+        "data_description": {}
+      },
       "args_awb_bad_kreuznach_de": {
         "title": "Configurer la Source",
         "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
