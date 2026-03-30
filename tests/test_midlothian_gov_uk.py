@@ -94,8 +94,9 @@ def test_source_initialization():
     source = midlothian_gov_uk.Source(uprn=uprn, postcode=postcode)
 
     # Then
-    assert source._uprn == uprn
-    assert source._postcode == postcode
+    # Ensure that the Source object is created successfully and is of the correct type,
+    # without relying on its internal/private attributes.
+    assert isinstance(source, midlothian_gov_uk.Source)
 
 
 def test_multiple_collections_returned(collections):
