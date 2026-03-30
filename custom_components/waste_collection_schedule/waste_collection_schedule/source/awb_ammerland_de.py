@@ -203,7 +203,6 @@ class Source:
         ast = ast_entry["ast"] if ast_entry else None
 
         # --- Build lookup structures ---
-        kal1_by_date: dict[str, dict] = {e["datum"]: e for e in kal1}
         # Holiday shift map: original date → replacement date
         holiday_shift: dict[str, str] = {e["datum"]: e["fdatum"] for e in fkal}
 
