@@ -48,7 +48,8 @@ class Source:
 
     def fetch(self):
         session = requests.Session()
-        session.get(SESSION_URL)
+        init_resp = session.get(SESSION_URL)
+        init_resp.raise_for_status()
         today = datetime.date.today().strftime("%Y-%m-%d")
         payload = {
             "formValues": {
