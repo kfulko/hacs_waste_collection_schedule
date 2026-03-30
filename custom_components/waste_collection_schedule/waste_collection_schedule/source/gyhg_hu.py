@@ -56,8 +56,6 @@ class Source:
         self._city = city
         self._street = street
         self._house_number = str(house_number)
-        self._street = street
-        self._house_number = house_number
 
     def fetch(self) -> list[Collection]:
 
