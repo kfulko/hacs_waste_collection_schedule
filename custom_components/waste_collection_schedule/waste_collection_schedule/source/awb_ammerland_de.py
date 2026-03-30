@@ -111,15 +111,15 @@ class Source:
         # 0=Str (streets), 1=Strgr (street sections), 2=Astgr,
         # 3=Strdat (schedule), 4=Astdat (ast mapping),
         # 5=Kal1 (daily reference), 6=Kal2 (Sperrmüll/Ast),
-        # 5=Kal1, 7=Kal3 (Problemstoffe), 8=Fkal (holiday shifts)
-        streets   = parts[0]
-        strgr     = parts[1]   # street sections
-        strdat    = parts[3]   # yearly schedule per street/section
-        astdat    = parts[4]   # street → ast mapping
-        kal1      = parts[5]   # daily reference table (gu, vier, papier per date)
-        kal2      = parts[6]   # Sperrmüll/Ast dates per (ortid, datum, ast)
-        kal3      = parts[7]   # Problemstoffe dates per (ortid, datum)
-        fkal      = parts[8]   # holiday shifts: datum → fdatum
+        # 7=Kal3 (Problemstoffe), 8=Fkal (holiday shifts)
+        streets = parts[0]
+        strgr = parts[1]  # street sections
+        strdat = parts[3]  # yearly schedule per street/section
+        astdat = parts[4]  # street → ast mapping
+        kal1 = parts[5]  # daily reference table (gu, vier, papier per date)
+        kal2 = parts[6]  # Sperrmüll/Ast dates per (ortid, datum, ast)
+        kal3 = parts[7]  # Problemstoffe dates per (ortid, datum)
+        fkal = parts[8]  # holiday shifts: datum → fdatum
 
         # --- Resolve city ---
         ortid = _CITY_MAP.get(self._city)
@@ -188,7 +188,7 @@ class Source:
             sd = max(candidates, key=lambda e: e["jahr"])
 
         # --- Resolve AST number for Kal2 lookup ---
-        # Kal2 uses an "ast" area code. Look it up from Astdat (part5).
+        # Kal2 uses an "ast" area code. Look it up from Astdat (part 5, i.e. parts[4]).
         # First try the exact section (strgrid), then fall back to astgrid=0
         # (street-level entry used when no section-specific ast exists).
         ast_entry = next(
@@ -203,7 +203,6 @@ class Source:
         ast = ast_entry["ast"] if ast_entry else None
 
         # --- Build lookup structures ---
-        kal1_by_date: dict[str, dict] = {e["datum"]: e for e in kal1}
         # Holiday shift map: original date → replacement date
         holiday_shift: dict[str, str] = {e["datum"]: e["fdatum"] for e in fkal}
 
