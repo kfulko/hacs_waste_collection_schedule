@@ -112,14 +112,14 @@ class Source:
         # 3=Strdat (schedule), 4=Astdat (ast mapping),
         # 5=Kal1 (daily reference), 6=Kal2 (Sperrmüll/Ast),
         # 5=Kal1, 7=Kal3 (Problemstoffe), 8=Fkal (holiday shifts)
-        streets   = parts[0]
-        strgr     = parts[1]   # street sections
-        strdat    = parts[3]   # yearly schedule per street/section
-        astdat    = parts[4]   # street → ast mapping
-        kal1      = parts[5]   # daily reference table (gu, vier, papier per date)
-        kal2      = parts[6]   # Sperrmüll/Ast dates per (ortid, datum, ast)
-        kal3      = parts[7]   # Problemstoffe dates per (ortid, datum)
-        fkal      = parts[8]   # holiday shifts: datum → fdatum
+        streets = parts[0]
+        strgr = parts[1]  # street sections
+        strdat = parts[3]  # yearly schedule per street/section
+        astdat = parts[4]  # street → ast mapping
+        kal1 = parts[5]  # daily reference table (gu, vier, papier per date)
+        kal2 = parts[6]  # Sperrmüll/Ast dates per (ortid, datum, ast)
+        kal3 = parts[7]  # Problemstoffe dates per (ortid, datum)
+        fkal = parts[8]  # holiday shifts: datum → fdatum
 
         # --- Resolve city ---
         ortid = _CITY_MAP.get(self._city)
