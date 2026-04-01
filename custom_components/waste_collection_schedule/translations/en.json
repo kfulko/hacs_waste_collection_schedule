@@ -15048,7 +15048,7 @@
         },
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_bridgend_gov_uk": {
@@ -15059,7 +15059,7 @@
           "uprn": "Unique Property Reference Number (UPRN)"
         },
         "data_description": {
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_bristol_gov_uk": {
@@ -15783,7 +15783,7 @@
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
           "postcode": "Postcode of your property",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_cumberland_gov_uk": {
@@ -15796,7 +15796,7 @@
         },
         "data_description": {
           "postcode": "Postcode of your property",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_dacorum_gov_uk": {
@@ -15856,7 +15856,7 @@
         },
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_dartford_gov_uk": {
@@ -15867,7 +15867,7 @@
           "uprn": "Unique Property Reference Number (UPRN)"
         },
         "data_description": {
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_denbighshire_gov_uk": {
