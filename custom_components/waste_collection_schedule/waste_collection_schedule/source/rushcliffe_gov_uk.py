@@ -82,13 +82,28 @@ class Source:
             data=dict(query=self._postcode, searchNlpg="True", classification=""),
         )
 
-        addresses = json.loads(r.text)
+        addresses_raw = json.loads(r.text)
+
+        if isinstance(addresses_raw, dict):
+            # Dict (old) format
+            iterator = addresses_raw.items()
+        elif isinstance(addresses_raw, list):
+            # List (new) format
+            iterator = (
+                (item.get("Key"), item.get("Value"))
+                for item in addresses_raw
+                if isinstance(item, dict)
+            )
+        else:
+            iterator = []
 
         args[POST_POST_UPRN_KEY] = next(
             (
                 key
-                for key, value in addresses.items()
-                if self.__compare(value, self._address)
+                for key, value in iterator
+                if key is not None
+                and value is not None
+                and self.__compare(value, self._address)
             ),
             None,
         )
