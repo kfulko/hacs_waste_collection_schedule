@@ -5,9 +5,9 @@ Entsorgungsgesellschaft Görlitz-Löbau-Zittau is supported by the generic [ICS]
 
 ## How to get the configuration arguments
 
-- Goto <https://www.abfall-eglz.de/abfallkalender.html> and select your municipality.  
+- Go to <https://www.abfall-eglz.de/abfallkalender.html> and select your municipality.  
 - Right-click on `Entsorgungstermine als iCalendar herunterladen` and copy link address.
-- Replace the `url` in the example configuration with this link.
+- Use this link as the `url` parameter.
 
 ## Examples
 

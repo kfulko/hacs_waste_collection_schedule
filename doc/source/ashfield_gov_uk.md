@@ -56,6 +56,6 @@ waste_collection_schedule:
     sources:
     - name: ashfield_gov_uk
       args:
-        post_code: "NG17 8DA"
-        name: "Ashfield District Council"
+        post_code: "NG17 8ZA"
+        name: "Council Offices"
 ```

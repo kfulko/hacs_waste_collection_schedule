@@ -5,9 +5,9 @@ Lübeck Entsorgungsbetriebe is supported by the generic [ICS](/doc/source/ics.md
 
 ## How to get the configuration arguments
 
-- Goto <https://insert-it.de/BMSAbfallkalenderLuebeck> and select your location.  
+- Go to <https://insert-it.de/BMSAbfallkalenderLuebeck> and select your location.  
 - Right-click on `iCalendar` and copy link address.
-- Replace the `url` in the example configuration with this link.
+- Use this link as the `url` parameter.
 - Replace the year in the url with `{%Y}`.
 
 ## Examples

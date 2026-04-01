@@ -9,7 +9,14 @@ URL = "https://www.ximmio.nl"
 
 
 def EXTRA_INFO():
-    return [{"title": s["title"], "url": s["url"]} for s in SERVICE_MAP]
+    return [
+        {
+            "title": s["title"],
+            "url": s["url"],
+            "default_params": {"company": s["company"]},
+        }
+        for s in SERVICE_MAP
+    ]
 
 
 TEST_CASES = {
@@ -110,6 +117,12 @@ SERVICE_MAP = [
         "url": "https://www.gemeentewestland.nl/",
         "uuid": "6fc75608-126a-4a50-9241-a002ce8c8a6c",
         "company": "westland",
+    },
+    {
+        "title": "Gemeente Venlo",
+        "url": "https://www.venlo.nl/",
+        "uuid": "280affe9-1428-443b-895a-b90431b8ca31",
+        "company": "venlo",
     },
 ]
 

@@ -16,10 +16,23 @@ API_URLS = {"BASE": "https://lcc-wrp.whitespacews.com"}
 ICON_MAP = {
     "Domestic Waste": "mdi:trash-can",
     "Garden Waste": "mdi:leaf",
+    # Dynamic (non-PDF) calendar does not split the types of recycling other than garden and food.
     "Recycling": "mdi:recycle",
+    "Food Waste": "mdi:food",
 }
+SUFFIXES = (
+    " Collection Service",
+    " Collection - refer to calendar for stream",
+)
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _clean_collection_type(type_text: str) -> str:
+    for suffix in SUFFIXES:
+        if type_text.endswith(suffix):
+            return type_text[: -len(suffix)].strip()
+    return type_text.strip()
 
 
 class Source:
@@ -69,28 +82,28 @@ class Source:
         response = self._session.get(addr_link)
         new_soup = BeautifulSoup(response.text, features="html.parser")
         services = new_soup.find("section", {"id": "scheduled-collections"})
-        services_sub = services.find_all("li")
-        for i in range(0, len(services_sub), 3):
-            try:
-                dt = datetime.strptime(
-                    services_sub[i + 1].text.strip(), "%d/%m/%Y"
-                ).date()
-            except ValueError:
-                _LOGGER.info(
-                    f"Skipped {services_sub[i + 1].text.strip()} as it does not match time format"
-                )
+        collection_groups = services.find_all("u1", class_="displayinlineblock")
+        for group in collection_groups:
+            li_elements = group.find_all("li")
+            if len(li_elements) < 3:
                 continue
-            bin_type = BeautifulSoup(services_sub[i + 2].text, features="lxml").find(
-                "p"
-            )
-            entries.append(
-                Collection(
-                    date=dt,
-                    t=bin_type.text.strip().removesuffix(" Collection Service"),
-                    icon=ICON_MAP[
-                        bin_type.text.strip().removesuffix(" Collection Service")
-                    ],
+            date_li = li_elements[1]
+            date_text = date_li.find("p").text.strip()
+            type_li = li_elements[2]
+            type_text = type_li.find("p").text.strip()
+            try:
+                dt = datetime.strptime(date_text, "%d/%m/%Y").date()
+                collection_type = next(
+                    (key for key in ICON_MAP if type_text.startswith(key)),
+                    _clean_collection_type(type_text),
                 )
-            )
-
+                entries.append(
+                    Collection(
+                        date=dt,
+                        t=collection_type,
+                        icon=ICON_MAP.get(collection_type, "mdi:trash-can"),
+                    )
+                )
+            except ValueError:
+                _LOGGER.info(f"Skipped {date_text} as it does not match date format")
         return entries

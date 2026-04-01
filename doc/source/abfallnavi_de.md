@@ -24,7 +24,8 @@ waste_collection_schedule:
 *(string) (required)*
 
 **strasse**  
-*(string) (required)*
+*(string) (optional)*  
+*required if the service provider website requests it*
 
 **hausnummer**  
 *(string | Integer) (optional)*
@@ -59,11 +60,12 @@ Your serviceID can be found in the list below. `ort`, `strasse` and `hausnummer`
 | Dinslaken | din |
 | Stadt Dorsten | dorsten |
 | EGW Westmünsterland | wml2 |
-| Gütersloh | gt2 |
+| Gütersloh (Stadt) | gt2 |
+| Kreis Gütersloh GEG | krwaf |
 | Halver | hlv |
 | Kreis Heinsberg | krhs |
 | Kronberg im Taunus | kronberg |
-| Gemeinde Lindlar | lindlar |
+| MHEG Mülheim an der Ruhr | muelheim |
 | Stadt Norderstedt | nds |
 | Kreis Pinneberg | pi |
 | Gemeinde Roetgen | roe |
@@ -73,6 +75,10 @@ Your serviceID can be found in the list below. `ort`, `strasse` and `hausnummer`
 | Kreis Viersen | viersen |
 | WBO Wirtschaftsbetriebe Oberhausen | oberhausen |
 | ZEW Zweckverband Entsorgungsregion West | zew2 |
+| Stadt Cuxhaven | cux |
+| Stadt Frankenthal | frankenthal |
+| Abfallwirtschaftsverband Lippe | awvlippe |
+| Gemeinde Kranenburg | kranenburg |
 <!--End of service section-->
 
 

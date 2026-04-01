@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import json
 from datetime import datetime
 
 import requests
+from waste_collection_schedule.exceptions import (
+    SourceArgumentNotFoundWithSuggestions,
+    SourceArgumentRequiredWithSuggestions,
+)
 
 SERVICE_DOMAINS = [
     {
@@ -62,9 +65,14 @@ SERVICE_DOMAINS = [
         "service_id": "wml2",
     },
     {
-        "title": "Gütersloh",
+        "title": "Gütersloh (Stadt)",
         "url": "https://www.guetersloh.de/",
         "service_id": "gt2",
+    },
+    {
+        "title": "Kreis Gütersloh GEG",
+        "url": "https://www.geg-gt.de/",
+        "service_id": "krwaf",
     },
     {
         "title": "Halver",
@@ -82,9 +90,9 @@ SERVICE_DOMAINS = [
         "service_id": "kronberg",
     },
     {
-        "title": "Gemeinde Lindlar",
-        "url": "https://www.lindlar.de/",
-        "service_id": "lindlar",
+        "title": "MHEG Mülheim an der Ruhr",
+        "url": "https://www.mheg.de/",
+        "service_id": "muelheim",
     },
     {
         "title": "Stadt Norderstedt",
@@ -136,7 +144,29 @@ SERVICE_DOMAINS = [
     #        "url": "https://www.straelen.de/",
     #        "service_id": "straelen",
     #    },
+    {
+        "title": "Stadt Cuxhaven",
+        "url": "https://www.cuxhaven.de/",
+        "service_id": "cux",
+    },
+    {
+        "title": "Stadt Frankenthal",
+        "url": "https://www.frankenthal.de/",
+        "service_id": "frankenthal",
+    },
+    {
+        "title": "Abfallwirtschaftsverband Lippe",
+        "url": "https://www.abfall-lippe.de/",
+        "service_id": "awvlippe",
+    },
+    {
+        "title": "Gemeinde Kranenburg",
+        "url": "https://www.kranenburg.de/",
+        "service_id": "kranenburg",
+    },
 ]
+
+DEFAULT_TIMEOUT = 20
 
 
 class AbfallnaviDe:
@@ -146,39 +176,50 @@ class AbfallnaviDe:
         self._service_url_fallback = (
             f"https://abfallapp.regioit.de/abfall-app-{service_domain}/rest"
         )
+        self._session = requests.Session()
 
     def _fetch(self, path, params=None):
         try:
-            r = requests.get(f"{self._service_url}/{path}", params=params)
+            r = self._session.get(
+                f"{self._service_url}/{path}", params=params, timeout=DEFAULT_TIMEOUT
+            )
         except requests.exceptions.ConnectionError:
             self._service_url = self._service_url_fallback
-            r = requests.get(f"{self._service_url}/{path}", params=params)
+            r = self._session.get(
+                f"{self._service_url}/{path}", params=params, timeout=DEFAULT_TIMEOUT
+            )
         r.encoding = "utf-8"  # requests doesn't guess the encoding correctly
-        return r.text
+        if r.status_code == 404:
+            raise SourceArgumentNotFoundWithSuggestions(
+                "service",
+                self._service_domain,
+                [s["service_id"] for s in SERVICE_DOMAINS],
+            )
+        r.raise_for_status()
+        return r
 
     def _fetch_json(self, path, params=None):
-        return json.loads(self._fetch(path, params=params))
+        return self._fetch(path, params=params).json()
 
     def get_cities(self):
         """Return all cities of service domain."""
         cities = self._fetch_json("orte")
-        result = {}
-        for city in cities:
-            result[city["id"]] = city["name"]
-        return result
+        return {city["id"]: city["name"] for city in cities}
 
     def get_city_id(self, city):
         """Return id for given city string."""
         cities = self.get_cities()
-        return self._find_in_inverted_dict(cities, city)
+        city_id = self._find_in_inverted_dict(cities, city)
+        if not city_id:
+            raise SourceArgumentNotFoundWithSuggestions(
+                "city", city, list(cities.values())
+            )
+        return city_id
 
     def get_streets(self, city_id):
         """Return all streets of a city."""
         streets = self._fetch_json(f"orte/{city_id}/strassen")
-        result = {}
-        for street in streets:
-            result[street["id"]] = street["name"]
-        return result
+        return {street["id"]: street["name"] for street in streets}
 
     def get_street_ids(self, city_id, street):
         """Return ids for given street string.
@@ -186,7 +227,18 @@ class AbfallnaviDe:
         may return multiple on change of id (may occur on year change)
         """
         streets = self.get_streets(city_id)
-        return [id for id, name in streets.items() if name == street]
+        if len(streets) == 1:
+            return list(streets.keys())
+        if street is None:
+            raise SourceArgumentRequiredWithSuggestions(
+                "street", "street is required of this city", list(streets.values())
+            )
+        matches = [id for id, name in streets.items() if name == street]
+        if len(matches) == 0:
+            raise SourceArgumentNotFoundWithSuggestions(
+                "street", street, list(streets.values())
+            )
+        return matches
 
     def get_house_numbers(self, street_id):
         """Return all house numbers of a street."""
@@ -200,14 +252,27 @@ class AbfallnaviDe:
     def get_house_number_id(self, street_id, house_number):
         """Return id for given house number string."""
         house_numbers = self.get_house_numbers(street_id)
-        return self._find_in_inverted_dict(house_numbers, house_number)
+        if len(house_numbers) == 0:
+            return None
+        if len(house_numbers) == 1:
+            return list(house_numbers.keys())[0]
+        if house_number is None:
+            raise SourceArgumentRequiredWithSuggestions(
+                "house_number",
+                "house number is required for this street",
+                list(house_numbers.values()),
+            )
+        house_number_id = self._find_in_inverted_dict(house_numbers, house_number)
+        if house_number_id is None:
+            raise SourceArgumentNotFoundWithSuggestions(
+                "house_number", house_number, list(house_numbers.values())
+            )
+
+        return house_number_id
 
     def get_waste_types(self):
         waste_types = self._fetch_json("fraktionen")
-        result = {}
-        for waste_type in waste_types:
-            result[waste_type["id"]] = waste_type["name"]
-        return result
+        return {waste_type["id"]: waste_type["name"] for waste_type in waste_types}
 
     def _get_dates(self, target, id, waste_types=None):
         # retrieve collections
@@ -221,12 +286,13 @@ class AbfallnaviDe:
 
         results = self._fetch_json(f"{target}/{id}/termine", params=args)
 
-        entries = []
-        for r in results:
-            date = datetime.strptime(r["datum"], "%Y-%m-%d").date()
-            fraktion = waste_types[r["bezirk"]["fraktionId"]]
-            entries.append([date, fraktion])
-        return entries
+        return [
+            [
+                datetime.strptime(r["datum"], "%Y-%m-%d").date(),
+                waste_types[r["bezirk"]["fraktionId"]],
+            ]
+            for r in results
+        ]
 
     def get_dates_by_street_id(self, street_id):
         return self._get_dates("strassen", street_id, waste_types=None)
@@ -238,13 +304,9 @@ class AbfallnaviDe:
         """Get dates by strings only for convenience."""
         # find city_id
         city_id = self.get_city_id(city)
-        if city_id is None:
-            raise Exception(f"No id found for city: {city}")
 
         # find street_id
         street_ids = self.get_street_ids(city_id, street)
-        if street_ids == []:
-            raise Exception(f"No id found for street: {street}")
 
         dates = []
         for street_id in street_ids:
@@ -268,7 +330,7 @@ def main():
     aachen = AbfallnaviDe("aachen")
     print(aachen.get_dates("Aachen", "Abteiplatz", "7"))
 
-    lindlar = AbfallnaviDe("lindlar")
+    lindlar = AbfallnaviDe("bav")
     print(lindlar.get_dates("Lindlar", "Aggerweg"))
 
     roe = AbfallnaviDe("roe")

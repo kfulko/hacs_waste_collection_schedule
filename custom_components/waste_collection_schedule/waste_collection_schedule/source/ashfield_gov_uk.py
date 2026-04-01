@@ -2,22 +2,27 @@ import datetime
 
 import requests
 from waste_collection_schedule import Collection
+from waste_collection_schedule.exceptions import (
+    SourceArgumentNotFound,
+    SourceArgumentNotFoundWithSuggestions,
+)
 
 TITLE = "Ashfield District Council"
 DESCRIPTION = "Source for ashfield.gov.uk, Ashfield District Council, UK"
 URL = "https://www.ashfield.gov.uk"
 TEST_CASES = {
     "11 Maun View Gardens, Sutton-in-Ashfield": {"uprn": 10001336299},
-    "4A Station Street, Kirkby-in-Ashfield": {"post_code": "NG177AR", "number": "4A"},
-    "Ashfield District Council": {
-        "post_code": "NG17 8DA",
-        "name": "Ashfield District Council",
+    "101 Main Street, Huthwaite": {"post_code": "NG17 2LQ", "uprn": "100031253415"},
+    "1 Acacia Avenue, Kirkby-in-Ashfield": {"post_code": "NG17 9BH", "number": "1"},
+    "Council Offices, Kirkby-in-Ashfield": {
+        "post_code": "NG178ZA",
+        "name": "COUNCIL OFFICES",
     },
 }
 
 API_URLS = {
-    "address_search": "https://www.ashfield.gov.uk/api/powersuite/getaddresses/{postcode}",
-    "collection": "https://www.ashfield.gov.uk/api/powersuite/GetCollectionByUprnAndDate/{uprn}",
+    "address_search": "https://www.ashfield.gov.uk/api/address/search/{postcode}",
+    "collection": "https://www.ashfield.gov.uk/api/address/collections/{uprn}",
 }
 
 ICON_MAP = {
@@ -44,36 +49,64 @@ class Source:
 
     def fetch(self):
         if not self._uprn:
+            if not self._post_code:
+                raise ValueError("post_code is required when uprn is not provided")
+            if not (self._name or self._number):
+                raise ValueError(
+                    "Either name or number must be provided when uprn is not provided"
+                )
             # look up the UPRN for the address
             q = str(API_URLS["address_search"]).format(postcode=self._post_code)
-            r = requests.get(q)
+            r = requests.get(q, timeout=30)
             r.raise_for_status()
-            addresses = r.json()["data"]
+            addresses = r.json()["results"]
 
+            if not addresses:
+                raise SourceArgumentNotFound("post_code", self._post_code)
+
+            matching = []
             if self._name:
-                self._uprn = [
-                    int(x["AccountSiteUprn"])
-                    for x in addresses
-                    if x["SiteAddressName"].capitalize() == self._name.capitalize()
-                ][0]
+                name_cf = self._name.casefold()
+                for x in addresses:
+                    dpa = x.get("DPA") or {}
+                    building_name = dpa.get("BUILDING_NAME")
+                    if building_name and building_name.casefold() == name_cf:
+                        matching.append(x)
             elif self._number:
-                self._uprn = [
-                    int(x["AccountSiteUprn"])
-                    for x in addresses
-                    if x["SiteAddressNumber"] == self._number
-                ][0]
+                for x in addresses:
+                    dpa = x.get("DPA") or {}
+                    if dpa.get("BUILDING_NUMBER") == self._number:
+                        matching.append(x)
+
+            if matching:
+                first_dpa = matching[0].get("DPA") or {}
+                uprn_value = first_dpa.get("UPRN")
+                if uprn_value:
+                    self._uprn = int(uprn_value)
 
             if not self._uprn:
-                raise Exception(
-                    f"Could not find address {self._post_code} {self._number}{self._name}"
+                raise SourceArgumentNotFoundWithSuggestions(
+                    argument=(
+                        "name"
+                        if self._name
+                        else "number" if self._number else "post_code"
+                    ),
+                    value=self._name or self._number or self._post_code,
+                    suggestions=[
+                        f"{(x.get('DPA') or {}).get('BUILDING_NUMBER', '')} {(x.get('DPA') or {}).get('BUILDING_NAME', '')}".strip()
+                        for x in addresses
+                    ],
                 )
+        else:
+            # Ensure UPRN is an integer
+            self._uprn = int(self._uprn)
 
         q = str(API_URLS["collection"]).format(uprn=self._uprn)
 
-        r = requests.get(q)
+        r = requests.get(q, timeout=30)
         r.raise_for_status()
 
-        collections = r.json()["data"]
+        collections = r.json()["collections"]
         entries = []
 
         if collections:
@@ -81,10 +114,10 @@ class Source:
                 entries.append(
                     Collection(
                         date=datetime.datetime.strptime(
-                            collection["Date"], "%d/%m/%Y %H:%M:%S"
+                            collection["date"], "%d/%m/%Y %H:%M:%S"
                         ).date(),
-                        t=NAMES.get(collection["Service"]),
-                        icon=ICON_MAP.get(collection["Service"]),
+                        t=NAMES.get(collection["service"], collection["service"]),
+                        icon=ICON_MAP.get(collection["service"]),
                     )
                 )
 

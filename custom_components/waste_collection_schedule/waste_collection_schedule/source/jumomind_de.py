@@ -3,6 +3,11 @@ import logging
 
 import requests
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
+from waste_collection_schedule.exceptions import (
+    SourceArgumentException,
+    SourceArgumentExceptionMultiple,
+    SourceArgumentNotFoundWithSuggestions,
+)
 
 TITLE = "Jumomind"
 DESCRIPTION = "Source for Jumomind.de waste collection."
@@ -17,10 +22,10 @@ TEST_CASES = {
         "area_id": 3031,
     },
     # END DEPRECATED
-    "sbm Minden Meissener Str. 6a": {
+    "sbm Minden Meißener Str. 6a": {
         "service_id": "sbm",
         "city": "Minden",
-        "street": "Meissener Str.",
+        "street": "Meißener Str.",
         "house_number": "6A",
     },
     "Darmstaadt ": {"service_id": "mymuell", "city": "Darmstadt", "street": "Achatweg"},
@@ -52,6 +57,11 @@ TEST_CASES = {
         "service_id": "mkk",
         "city": "Freigericht",
         "street": "Hauptstraße (Altenmittlau)",
+    },
+    "ALW Wolfenbüttel": {
+        "service_id": "wol",
+        "city": "Linden",
+        "street": "Am Buschkopf",
     },
 }
 
@@ -129,6 +139,7 @@ SERVICE_MAP = {
             "Darmstadt",
             "Esens",
             "Flensburg",
+            "Grävenwiesbach",
             "Großkrotzenburg",
             "Hainburg",
             "Holtgast",
@@ -172,6 +183,7 @@ SERVICE_MAP = {
     "kbl": {"list": ["Langen"], "url": "https://www.kbl-langen.de/"},
     "ros": {"list": ["Rosbach Vor Der Höhe"], "url": "https://www.rosbach-hessen.de/"},
     "mkk": {"list": ["Main-Kinzig-Kreis"], "url": "https://abfall-mkk.de/"},
+    "wol": {"list": ["ALW Wolfenbüttel"], "url": "https://www.alw-wf.de"},
 }
 
 
@@ -186,14 +198,64 @@ def EXTRA_INFO():
         for area in entries["list"]:
             title = area + comment
 
-            extra_info.append({"title": title, "url": url})
+            extra_info.append(
+                {"title": title, "url": url, "default_params": {"service_id": provider}}
+            )
     return extra_info
 
 
 API_URL = "https://{provider}.jumomind.com/mmapp/api.php"
 
 
+PARAM_TRANSLATIONS = {
+    "de": {
+        "service_id": "Service ID",
+        "city": "Ort",
+        "street": "Straße",
+        "city_id": "Ort ID",
+        "area_id": "Bereich ID",
+        "house_number": "Hausnummer",
+    }
+}
+
 LOGGER = logging.getLogger(__name__)
+
+
+def validate_params(value):
+    errors = {}
+    service_id = value.get("service_id")
+    city = value.get("city")
+    street = value.get("street")
+    city_id = value.get("city_id")
+    area_id = value.get("area_id")
+    house_number = value.get("house_number")
+    if service_id is None:
+        errors["service_id"] = "service_id is required"
+    if city is None and city_id is None:
+        errors["city"] = "city or city_id is required"
+        errors["city_id"] = "city or city_id is required"
+    if city is not None and city_id is not None:
+        errors["city"] = "city or city_id is required. Do not use both"
+        errors["city_id"] = "city or city_id is required. Do not use both"
+    if city is None and street is not None:
+        errors["street"] = "street is not needed without city"
+    if city is None and house_number is not None:
+        errors["house_number"] = "house_number is not needed without city"
+    if city_id is not None and area_id is None:
+        errors["area_id"] = "area_id is required when using city_id"
+    if area_id is not None and city_id is None:
+        errors["city_id"] = "city_id is required when using area_id"
+    return errors
+
+
+def normalize_street(value: str | None) -> str | None:
+    return value and (
+        value.lower()
+        .strip()
+        .casefold()
+        .replace("straße", "strasse")
+        .replace("str.", "strasse")
+    )
 
 
 class Source:
@@ -219,14 +281,19 @@ class Source:
 
     def fetch(self):
         session = requests.Session()
+        session.headers.update({"Accept-Encoding": "identity"})
 
         city_id = self._city_id
         area_id = self._area_id
 
         if city_id is None and self._city is None:
-            raise Exception("City or city id is required")
+            raise SourceArgumentExceptionMultiple(
+                ["city", "city_id"], "City or city id is required"
+            )
         if city_id is not None and self._city is not None:
-            raise Exception("City or city id is required. Do not use both")
+            raise SourceArgumentExceptionMultiple(
+                ["city", "city_id"], "City OR city id is required. Do not use both"
+            )
 
         r = session.get(self._api_url, params={"r": "cities_web"})
         r.raise_for_status()
@@ -235,8 +302,9 @@ class Source:
 
         if city_id is not None:
             if area_id is None:
-                raise Exception(
-                    "no area id but needed when city id is given. Remove city id when using city (and street) name"
+                raise SourceArgumentException(
+                    "area_id",
+                    "Area id is required when using city_id. Remove city id when using city (and street) name",
                 )
         else:
             has_streets = True
@@ -251,9 +319,8 @@ class Source:
                     break
 
             if city_id is None:
-                raise Exception(
-                    "City not found, should be one of:"
-                    + "; ".join(c["name"] for c in cities)
+                raise SourceArgumentNotFoundWithSuggestions(
+                    "city", self._city, [c["name"] for c in cities]
                 )
 
             if has_streets:
@@ -265,9 +332,10 @@ class Source:
 
                 street_found = False
                 for street in streets:
-                    if (
-                        street["name"].lower().strip() == self._street
-                        or street["_name"].lower().strip() == self._street
+                    if normalize_street(street["name"]) == normalize_street(
+                        self._street
+                    ) or normalize_street(street["_name"]) == normalize_street(
+                        self._street
                     ):
                         street_found = True
                         area_id = street["area_id"]
@@ -281,7 +349,12 @@ class Source:
                                     break
                         break
                 if not street_found:
-                    raise Exception("Street not found")
+                    streets_suggestions = {s.get("name") for s in streets}
+                    streets_suggestions.update({s.get("_name") for s in streets})
+                    streets_suggestions -= {None}
+                    raise SourceArgumentNotFoundWithSuggestions(
+                        "street", self._street, streets_suggestions
+                    )
             else:
                 if self._street is not None:
                     LOGGER.warning(
@@ -290,7 +363,6 @@ class Source:
 
         # get names for bins
 
-        print({"r": "trash", "city_id": city_id, "area_id": area_id})
         bin_name_map = {}
         r = session.get(
             self._api_url,

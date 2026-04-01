@@ -5,14 +5,14 @@ Abfallwirtschaft Landkreis Haßberge is supported by the generic [ICS](/doc/sour
 
 ## How to get the configuration arguments
 
-- Goto <https://awido.cubefour.de/customer/awhas/mobile/>.
+- Go to <https://awido.cubefour.de/customer/awhas/mobile/>.
 - Select your Location and Garbage Types
 - Click on "Termine und Daten laden"
 - Select "Mehr" bottom left.
 - Select "Erinnerungen beantragen"
 - Select "weiter ..."
 - Copy the Link from the Button "Termine als iCalendar".
-- Replace the `url` in the example configuration with this link.
+- Use this link as the `url` parameter.
 - Replace the year in the url with `{%Y}` this keeps the link working in the coming years.
 
 ## Examples

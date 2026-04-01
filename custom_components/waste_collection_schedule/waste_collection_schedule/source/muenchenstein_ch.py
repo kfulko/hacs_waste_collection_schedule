@@ -21,7 +21,15 @@ ICON_MAP = {
     "hackseldienst": "mdi:leaf",
     "papierabfuhr": "mdi:newspaper-variant-multiple-outline",
     "kartonabfuhr": "mdi:package-variant",
-    "altmetalle": "mdi:nail",
+    "metallabfuhr": "mdi:nail",
+    "grobsperrgut (brennbar)": "mdi:sofa-single-outline",
+}
+
+
+PARAM_TRANSLATIONS = {
+    "de": {
+        "waste_district": "Abfuhrkreis",
+    },
 }
 
 
@@ -43,8 +51,15 @@ class Source:
                 self._waste_district in item["abfallkreisIds"]
                 or self._waste_district in item["abfallkreisNameList"]
             ):
-                next_pickup = item["_anlassDate-sort"].split()[0]
-                next_pickup_date = datetime.fromisoformat(next_pickup).date()
+                # Datum aus HTML extrahieren statt aus dem -sort Feld
+                date_raw_html = item["_anlassDate"]
+                date_soup = BeautifulSoup(date_raw_html, "html.parser").find("span")
+                date_str = date_soup.get_text(strip=True)  # z.B. "22.10.2025"
+
+                try:
+                    next_pickup_date = datetime.strptime(date_str, "%d.%m.%Y").date()
+                except ValueError:
+                    continue  # Ungültiges Datum überspringen
 
                 waste_type = BeautifulSoup(item["name"], "html.parser").text
                 waste_type_sorted = BeautifulSoup(item["name-sort"], "html.parser").text

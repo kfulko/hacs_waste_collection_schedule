@@ -1,11 +1,12 @@
-import json
 from datetime import datetime
 
 import requests
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
 
 TITLE = "Huntingdonshire District Council"
-DESCRIPTION = "Source for Huntingdonshire.gov.uk services for Huntingdonshire District Council."
+DESCRIPTION = (
+    "Source for Huntingdonshire.gov.uk services for Huntingdonshire District Council."
+)
 URL = "https://www.huntingdonshire.gov.uk"
 TEST_CASES = {
     "Wells Close, Brampton": {"uprn": "100090123510"},
@@ -16,6 +17,7 @@ ICON_MAP = {
     "Refuse": "mdi:trash-can",
     "Recycling": "mdi:recycle",
     "Garden": "mdi:leaf",
+    "Food": "mdi:food-apple",
 }
 
 
@@ -30,10 +32,6 @@ class Source:
         )
 
         # extract data from json
-        data = json.loads(r.text)
-
-        entries = []
-
         collections = r.json()["collections"]
         entries = []
 
@@ -48,6 +46,5 @@ class Source:
                         icon=ICON_MAP.get(round_type),
                     )
                 )
-
 
         return entries

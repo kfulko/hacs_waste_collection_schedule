@@ -1,0 +1,12 @@
+---
+title: ESG Soest - Entsorgungswirtschaft Soest GmbH
+url: https://www.esg-soest.de/
+howto:
+  en: |
+    - Go to <https://www.esg-soest.de/abfallkalender> and select your location and press `weiter`.
+    - Enter your street and press `weiter`.
+    - Right click and copy the link of the `.ics-Datei` button.
+    - Use this link as the `url` parameter.
+test_cases:
+  Rathausstraße (Soest):
+    url: https://www.esg-soest.de/abfallkalender/soest/rathausstrasse/herunterladen

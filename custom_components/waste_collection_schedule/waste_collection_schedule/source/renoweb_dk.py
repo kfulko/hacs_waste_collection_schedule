@@ -8,6 +8,9 @@ from typing import List
 
 import requests
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
+from waste_collection_schedule.exceptions import (
+    SourceArgumentExceptionMultiple,
+)
 
 TITLE = "RenoWeb"
 DESCRIPTION = "RenoWeb collections"
@@ -68,7 +71,10 @@ class Source:
             self._address = address
 
         else:
-            raise ValueError("Either address or address_id must be provided")
+            raise SourceArgumentExceptionMultiple(
+                ("address", "address_id"),
+                "Either address or address_id must be provided",
+            )
 
         self._session = requests.Session()
         self._session.headers = {
@@ -118,7 +124,30 @@ class Source:
         response.raise_for_status()
 
         # For some reason the response is a JSON structure inside a JSON string
-        waste_schemes = json.loads(response.json()["d"])["list"]
+        data = json.loads(response.json()["d"])
+
+        # If the response JSON contains nested "status" keys, we're probably
+        # dealing with an error.
+        status = data.get("status", None)
+        if status:
+            statusCode = status.get("status", None)
+            statusMessage = status.get("msg", None)
+
+            if statusCode in ["AccessDenied"]:
+                _LOGGER.error("Source.fetch(): access denied; data=%s", data)
+                raise ValueError(f"Access denied: {statusMessage}")
+            elif statusCode:
+                _LOGGER.error("Source.fetch(): unknown error; data=%s", data)
+                raise ValueError(f'Unhandled error "{statusCode}": {statusMessage}')
+
+        _LOGGER.debug(
+            "Source.fetch(); response=%s, data=%s, address_id=%s",
+            response,
+            data,
+            self._address_id,
+        )
+
+        waste_schemes = data["list"]
 
         if not waste_schemes:
             raise ValueError("No waste schemes found, check address or address_id")

@@ -1,17 +1,17 @@
 import json
 import logging
-import requests
-
 from datetime import datetime
+
+import requests
+import urllib3
 from waste_collection_schedule import Collection
 
 # With verify=True the POST fails due to a SSLCertVerificationError.
 # Using verify=False works, but is not ideal. The following links may provide a better way of dealing with this:
 # https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
 # https://urllib3.readthedocs.io/en/1.26.x/user-guide.html#ssl
-# These two lines areused to suppress the InsecureRequestWarning when using verify=False
-import urllib3
-urllib3.disable_warnings()
+# This line suppresses the InsecureRequestWarning when using verify=False
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 TITLE = "Chesterfield Borough Council"
@@ -33,6 +33,7 @@ ICON_MAP = {
     "DOMESTIC REFUSE": "mdi:trash-can",
     "DOMESTIC RECYCLING": "mdi:recycle",
     "DOMESTIC ORGANIC": "mdi:leaf",
+    "DOMESTIC PAID GARDEN": "mdi:leaf",
 }
 
 API_URLS = {
@@ -52,10 +53,7 @@ class Source:
     def fetch(self):
 
         s = requests.Session()
-        r = s.get(
-            API_URLS["session"],
-            headers=HEADERS,
-        )
+        r = s.get(API_URLS["session"], headers=HEADERS, verify=False)
 
         # Capture fwuid value
         r = s.get(
@@ -85,6 +83,7 @@ class Source:
                 headers=HEADERS,
             )
             data = json.loads(r.content)
+            # print(data)
 
         entries = []
 
@@ -97,15 +96,22 @@ class Source:
                 pass
             else:
                 waste_type = str(waste_type).replace("Collect ", "")
-                dt_zulu = item["serviceTasks"][0]["serviceTaskSchedules"][0]["nextInstance"]["currentScheduledDate"]
-                dt_utc = datetime.strptime(dt_zulu, "%Y-%m-%dT%H:%M:%S.%f%z")
-                dt_local = dt_utc.astimezone(None)
-                entries.append(
-                    Collection(
-                        date=dt_local.date(),
-                        t=waste_type,
-                        icon=ICON_MAP.get(waste_type.upper()),
+                try:
+                    dt_zulu = item["serviceTasks"][0]["serviceTaskSchedules"][0][
+                        "nextInstance"
+                    ]["currentScheduledDate"]
+                except (IndexError, KeyError):
+                    #  keys are missing from some entries, or keys have no values
+                    pass
+                else:
+                    dt_utc = datetime.strptime(dt_zulu, "%Y-%m-%dT%H:%M:%S.%f%z")
+                    dt_local = dt_utc.astimezone(None)
+                    entries.append(
+                        Collection(
+                            date=dt_local.date(),
+                            t=waste_type,
+                            icon=ICON_MAP.get(waste_type.upper()),
+                        )
                     )
-                )
 
         return entries

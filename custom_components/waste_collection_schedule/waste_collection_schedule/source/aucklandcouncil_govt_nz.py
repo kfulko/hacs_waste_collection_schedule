@@ -1,19 +1,19 @@
 import datetime
-from html.parser import HTMLParser
+import re
 
-# import requests
-from waste_collection_schedule import Collection  # type: ignore[attr-defined]
-
-# Include work around for SSL UNSAFE_LEGACY_RENEGOTIATION_DISABLED error
-from waste_collection_schedule.service.SSLError import get_legacy_session
+import requests
+from bs4 import BeautifulSoup
+from waste_collection_schedule import Collection
 
 TITLE = "Auckland Council"
 DESCRIPTION = "Source for Auckland council."
-URL = "https://aucklandcouncil.govt.nz"
+URL = "https://new.aucklandcouncil.govt.nz"
+
 TEST_CASES = {
     "429 Sea View Road": {"area_number": "12342453293"},  # Monday
-    "8 Dickson Road": {"area_number": "12342306525"},  # Thursday
-    "with Food Scraps": {"area_number": "12341998652"},  
+    "8 Dickson Road": {"area_number": 12342306525},  # Thursday
+    "with Food Scraps": {"area_number": 12341998652},
+    "3 Andrew Road": {"area_number": "12345375455"},  # friday with foodscraps
 }
 
 MONTH = {
@@ -32,90 +32,93 @@ MONTH = {
 }
 
 
-def toDate(formattedDate):
-    items = formattedDate.split()
-    return datetime.date(int(items[3]), MONTH[items[2]], int(items[1]))
+def toDate(formattedDate: str, year: int | None = None) -> datetime.date:
+    # formattedDate looks like "Wednesday, 8 October"
+    parts = formattedDate.replace(",", "").split()
+    # ["Wednesday", "8", "October"]
+    day = int(parts[1])
+    month = MONTH[parts[2]]
+    if year is None:
+        today = datetime.date.today()
+        year = today.year
+        # Handle December rollover into January
+        if month == 1 and today.month == 12:
+            year += 1
+    return datetime.date(year, month, day)
 
 
-# Parser for <div> element with class wasteSearchResults
-class WasteSearchResultsParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self._entries = []
-        self._wasteType = None
-        self._withinWasteDateSpan = False
-        self._withinHouseholdDiv = False
-        self._withinRubbishLinks = False
-        self._todaysDate = None
-        self._workingWasteDate = None
-
-    @property
-    def entries(self):
-        return self._entries
-
-    def handle_endtag(self, tag):
-        if tag == "span" and self._withinWasteDateSpan:
-            self._withinWasteDateSpan = False
-        if tag == "div" and self._withinRubbishLinks:
-            self._withinRubbishLinks = False
-            self._workingWasteDate = None
-
-    def handle_starttag(self, tag, attrs):
-        if tag == "div":
-            d = dict(attrs)
-            id = d.get("id", "")
-            if id.endswith("HouseholdBlock"):
-                self._withinHouseholdDiv = True
-            if id.endswith("CommercialBlock"):
-                self._withinHouseholdDiv = False
-
-        if self._withinHouseholdDiv:
-            s = dict(attrs)
-            className = s.get("class", "")
-            if tag == "div":
-                if className == "links":
-                    self._withinRubbishLinks = True
-                else:
-                    self._withinRubbishLinks = False
-
-            if tag == "span":
-                if className.startswith("m-r-1"):
-                    self._withinWasteDateSpan = True
-
-                if self._workingWasteDate is not None:
-                    if className.startswith("icon-"):
-                        type = s["class"][5:]  # remove "icon-"
-                        self._entries.append(Collection(self._workingWasteDate, type))
-
-    def handle_data(self, data):
-        # date span comes first, doesn't have a year
-        if self._withinWasteDateSpan:
-            todays_date = datetime.date.today()
-            # use current year, unless Jan is in data, and we are still in Dec
-            year = todays_date.year
-            if "January" in data and todays_date.month == 12:
-                # then add 1
-                year = year + 1
-            fullDate = data + " " + f"{year}"
-            self._workingWasteDate = toDate(fullDate)
+HEADER = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+}
 
 
 class Source:
-    def __init__(
-        self, area_number,
-    ):
-        self._area_number = area_number
+    def __init__(self, area_number: str | int):
+        self._area_number = str(area_number)
 
-    def fetch(self):
-        # get token
-        params = {"an": self._area_number}
+    def fetch(self) -> list[Collection]:
+        url = f"https://new.aucklandcouncil.govt.nz/en/rubbish-recycling/rubbish-recycling-collections/rubbish-recycling-collection-days/{self._area_number}.html"
+        r = requests.get(url, headers=HEADER)
 
-        # Updated request using SSL code snippet
-        r = get_legacy_session().get("https://www.aucklandcouncil.govt.nz/rubbish-recycling/rubbish-recycling-collections/Pages/collection-day-detail.aspx",
-            params=params,
-            # verify=False,
-        )
+        soup = BeautifulSoup(r.text, "html.parser")
+        entries: list[Collection] = []
 
-        p = WasteSearchResultsParser()
-        p.feed(r.text)
-        return p.entries
+        # Find only the household collection section
+        # Look for the card with "Household collection" title
+        household_section = None
+        schedule_cards = soup.find_all("div", class_="acpl-schedule-card")
+
+        for card in schedule_cards:
+            title_element = card.find("h4", class_="card-title")
+            if title_element and "Household collection" in title_element.get_text():
+                household_section = card
+                break
+
+        if not household_section:
+            return entries
+
+        # Look for collection information only within the household section
+        collection_paragraphs = household_section.find_all("p", class_="mb-0 lead")
+
+        for p in collection_paragraphs:
+            # Look for icon elements
+            icon = p.find("i", class_=lambda x: x and "acpl-icon" in x)
+            if not icon:
+                continue
+
+            # Extract the collection type from icon classes
+            classes = icon.get("class", [])
+            collection_type = None
+            for cls in classes:
+                if cls in ["rubbish", "recycle", "food-waste"]:
+                    collection_type = cls
+                    break
+
+            if not collection_type:
+                continue
+
+            # Look for date in bold text within the paragraph
+            date_bold = p.find("b")
+            if not date_bold:
+                continue
+
+            date_text = date_bold.get_text(strip=True)
+
+            # Extract date from text using regex
+            date_match = re.search(r"([A-Za-z]+,\s+\d+\s+[A-Za-z]+)", date_text)
+            if not date_match:
+                continue
+
+            try:
+                collection_date = toDate(date_match.group(1))
+                # Normalize collection type names
+                if collection_type == "food-waste":
+                    collection_type = "food scraps"
+                elif collection_type == "recycle":
+                    collection_type = "recycling"
+
+                entries.append(Collection(collection_date, collection_type))
+            except (ValueError, KeyError):
+                continue
+
+        return entries

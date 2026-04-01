@@ -5,10 +5,10 @@ ebwo - Entsorgungs- und Baubetrieb Anstalt des öffentlichen Rechts der Stadt Wo
 
 ## How to get the configuration arguments
 
-- Goto <https://www.worms.de/de/web/ebwo/> and switch to the Abfallakalender tab.
+- Go to <https://www.worms.de/de/web/ebwo/> and switch to the Abfallakalender tab.
 - Search for your street and click on the street name.
 - Right click on the 'Export-Datei (.ics) herunterladen' button and select 'Copy link address'.
-- Replace the `url` in the example configuration with this link.
+- Use this link as the `url` parameter.
 - Replace the year in the url with `{%Y}` to keep the link valid for following years.
 
 ## Examples

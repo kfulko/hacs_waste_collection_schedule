@@ -5,9 +5,9 @@ Aballwirtschaft Ludwigslust-Parchim AöR is supported by the generic [ICS](/doc/
 
 ## How to get the configuration arguments
 
-- Goto <https://alp-lup.de/Service-Center/Abfuhrtermine/Abfallkalender/> and select your location.  
+- Go to <https://alp-lup.de/Service-Center/Abfuhrtermine/Abfallkalender/> and select your location.  
 - Click on `Exportieren iCal` and copy the link below `URL in Kalender-App einbinden`.
-- Replace the `url` in the example configuration with this link.
+- Use this link as the `url` parameter.
 - Replace the year in the url with `{%Y}` (as shown in the example).
 
 ## Examples

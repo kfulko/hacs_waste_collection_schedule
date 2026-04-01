@@ -17,7 +17,14 @@ COUNTRY = "de"
 
 
 def EXTRA_INFO():
-    return [{"title": s["title"], "url": s["url"]} for s in SERVICE_MAP]
+    return [
+        {
+            "title": s["title"],
+            "url": s["url"],
+            "default_params": {"key": s["service_id"]},
+        }
+        for s in SERVICE_MAP
+    ]
 
 
 TEST_CASES = {
@@ -75,7 +82,7 @@ TEST_CASES = {
 _LOGGER = logging.getLogger(__name__)
 
 MODUS_KEY = "d6c5855a62cf32a4dadbc2831f0f295f"
-HEADERS = {"user-agent": "Mozilla/5.0 (xxxx Windows NT 10.0; Win64; x64)"}
+HEADERS = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0"}
 
 
 # Parser for HTML input (hidden) text
