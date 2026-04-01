@@ -12451,6 +12451,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Civico",
+          "language": "Language",
           "street": "Strada",
           "town": "Città"
         },
@@ -12473,6 +12474,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Civico",
+          "language": "Language",
           "street": "Strada",
           "town": "Città"
         },

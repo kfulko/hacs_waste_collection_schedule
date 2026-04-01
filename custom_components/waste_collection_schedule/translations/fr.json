@@ -12442,6 +12442,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "House Number",
+          "language": "Language",
           "street": "Street",
           "town": "Town"
         },
@@ -12464,6 +12465,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "House Number",
+          "language": "Language",
           "street": "Street",
           "town": "Town"
         },
