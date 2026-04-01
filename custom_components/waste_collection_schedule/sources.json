@@ -16075,6 +16075,12 @@
       "id": "ics_recollect"
     },
     {
+      "title": "Midlothian Council",
+      "module": "midlothian_gov_uk",
+      "default_params": {},
+      "id": "midlothian_gov_uk"
+    },
+    {
       "title": "Milton Keynes council",
       "module": "milton_keynes_gov_uk",
       "default_params": {},

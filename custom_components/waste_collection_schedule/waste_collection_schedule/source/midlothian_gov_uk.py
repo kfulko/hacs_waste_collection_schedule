@@ -1,6 +1,12 @@
 import datetime
+import time
+
 import requests
 from waste_collection_schedule import Collection
+from waste_collection_schedule.exceptions import (
+    SourceArgumentException,
+    SourceArgumentNotFound,
+)
 
 TITLE = "Midlothian Council"
 DESCRIPTION = "Source script for my.midlothian.gov.uk bin collections"
@@ -11,8 +17,9 @@ TEST_CASES = {
     "Test1": {"uprn": "120001401", "postcode": "EH26 8AG"},
 }
 
-API_URL = f"https://my.midlothian.gov.uk/apibroker/runLookup?id={LOOKUP_ID_BIN_COLLECTION_SERVICE}&noRetry={NO_RETRY}"
-SESSION_URL = "https://my.midlothian.gov.uk/service/Bin_Collection_Dates"
+AUTH_URL = "https://my.midlothian.gov.uk/authapi/isauthenticated"
+DOMAIN_URL = "https://my.midlothian.gov.uk/apibroker/domain/my.midlothian.gov.uk"
+RUN_LOOKUP_URL = "https://my.midlothian.gov.uk/apibroker/runLookup"
 
 ICON_MAP = {
     "Food Collection Service": "mdi:food-apple",
@@ -48,20 +55,32 @@ class Source:
 
     def fetch(self):
         session = requests.Session()
-        # Step 1: Get session id (sid) via isauthenticated
-        auth_url = "https://my.midlothian.gov.uk/authapi/isauthenticated"
-        auth_resp = session.get(auth_url)
+        auth_resp = session.get(AUTH_URL, timeout=30)
         auth_resp.raise_for_status()
-        auth_data = auth_resp.json()
+        try:
+            auth_data = auth_resp.json()
+        except ValueError as err:
+            raise SourceArgumentException(
+                "uprn", f"Invalid response while creating session: {err}"
+            ) from err
+
         sid = auth_data.get("auth-session")
         if not sid:
-            raise Exception(f"Failed to obtain session id (sid). Response: {auth_resp.text}")
+            raise SourceArgumentException(
+                "uprn", "Could not establish session with council form."
+            )
+
+        timestamp = time.time_ns() // 1_000_000
+        domain_resp = session.get(
+            DOMAIN_URL, params={"_": timestamp, "sid": sid}, timeout=30
+        )
+        domain_resp.raise_for_status()
 
         # Step 2: Prepare runLookup request with required params
         today = datetime.date.today()
         from_date = today.strftime("%Y-%m-%d")
-        # API requires toDate - set to 1 year from now to get full year of collections
-        to_date = (today.replace(year=today.year + 1)).strftime("%Y-%m-%d")
+        # Use timedelta to avoid leap-day crashes from date.replace(year=+1).
+        to_date = (today + datetime.timedelta(days=365)).strftime("%Y-%m-%d")
         payload = {
             "stopOnFailure": True,
             "usePHPIntegrations": True,
@@ -70,39 +89,58 @@ class Source:
             "formId": "AF-Form-033371a6-b0e4-4e16-a3b5-f68f592d8bf1",
             "formValues": {
                 "Section 1": {
+                    "postcode": {"value": self._postcode},
                     "UPRN": {"value": self._uprn},
+                    "uprn": {"value": self._uprn},
                     "fromDate": {"value": from_date},
                     "toDate": {"value": to_date},
                 }
             }
         }
-        headers = {"Content-Type": "application/json"}
-        # Add sid and standard params to the URL
-        runlookup_url = (
-            f"https://my.midlothian.gov.uk/apibroker/runLookup?id={LOOKUP_ID_BIN_COLLECTION_SERVICE}"
-            f"&sid={sid}&repeat_against=&noRetry={NO_RETRY}&getOnlyTokens=undefined&app_name=AF-Renderer::Self"
-        )
-        resp = session.post(runlookup_url, json=payload, headers=headers)
+        params = {
+            "id": LOOKUP_ID_BIN_COLLECTION_SERVICE,
+            "repeat_against": "",
+            "noRetry": NO_RETRY,
+            "getOnlyTokens": "undefined",
+            "log_id": "",
+            "app_name": "AF-Renderer::Self",
+            "_": time.time_ns() // 1_000_000,
+            "sid": sid,
+        }
+        resp = session.post(RUN_LOOKUP_URL, params=params, json=payload, timeout=30)
         resp.raise_for_status()
-        data = resp.json()
+        try:
+            data = resp.json()
+        except ValueError as err:
+            raise SourceArgumentException(
+                "uprn", f"Council lookup returned invalid JSON: {err}"
+            ) from err
+
         if data.get("result") == "logout":
-            raise Exception("Session expired or invalid. Try again.")
+            raise SourceArgumentException(
+                "uprn", "Session expired while querying collection data."
+            )
         rows = (
             data.get("integration", {})
             .get("transformed", {})
             .get("rows_data", {})
         )
+        if not rows:
+            raise SourceArgumentNotFound(
+                "uprn", self._uprn, "No collection data returned for this address."
+            )
+
         entries = []
         failed_rows = []
         for row in rows.values():
-            date_str = row.get("Date")
+            date_str = row.get("Date") or row.get("date")
             try:
                 date = datetime.datetime.strptime(date_str, "%d/%m/%Y %H:%M:%S").date()
             except (ValueError, TypeError, AttributeError) as e:
                 # Track parsing failures - expected exceptions for invalid/missing dates
                 failed_rows.append(f"Date='{date_str}': {type(e).__name__}")
                 continue
-            waste_type = row.get("Service")
+            waste_type = row.get("Service") or row.get("service")
             entries.append(
                 Collection(
                     date=date,
@@ -113,7 +151,8 @@ class Source:
 
         # If we got rows but couldn't parse any, the format likely changed
         if rows and not entries:
-            raise Exception(
+            raise SourceArgumentException(
+                "uprn",
                 f"Failed to parse any collection dates from {len(rows)} rows. "
                 f"API format may have changed. Failures: {failed_rows[:3]}"
             )
