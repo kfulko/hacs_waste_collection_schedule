@@ -17762,6 +17762,33 @@
           "street": "Enter the street name (e.g., HIGH STREET)."
         }
       },
+      "args_midlothian_gov_uk": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "postcode": "Postcode",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "postcode": "Postcode of the property (required)",
+          "uprn": "Unique Property Reference Number (required)"
+        }
+      },
+      "reconfigure_midlothian_gov_uk": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "postcode": "Postcode",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "postcode": "Postcode of the property (required)",
+          "uprn": "Unique Property Reference Number (required)"
+        }
+      },
       "args_milton_keynes_gov_uk": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",

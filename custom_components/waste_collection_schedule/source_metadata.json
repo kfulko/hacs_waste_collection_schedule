@@ -2939,6 +2939,15 @@
     },
     "urls": {}
   },
+  "midlothian_gov_uk": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/midlothian_gov_uk.md",
+    "howto": {
+      "en": "Find your UPRN and postcode from your council documents or invoices."
+    },
+    "urls": {
+      "url_www_findmyaddress_co_uk": "https://www.findmyaddress.co.uk/"
+    }
+  },
   "milton_keynes_gov_uk": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/milton_keynes_gov_uk.md",
     "howto": {},
