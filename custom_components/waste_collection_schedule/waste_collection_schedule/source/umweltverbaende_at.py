@@ -786,8 +786,15 @@ class Source:
                     "jahr": str(year),
                 },
             )
-            # Add additional parameters if they exist
-            for key in ["search[ort]", "search[postleitzahl]", "search[strasse]"]:
+            # Keep all location filters from the dropdown chain so the API can
+            # return the household-specific schedule instead of broad defaults.
+            for key in [
+                "search[ort]",
+                "search[postleitzahl]",
+                "search[strasse]",
+                "search[hausnummer]",
+                "search[zusatz]",
+            ]:
                 if key in ort_data:
                     data[key] = ort_data[key]
         except Exception:
@@ -819,7 +826,13 @@ class Source:
                 "search[gemeinde]": mun_value,
             }
             # Add location data if we have it
-            for key in ["search[ort]", "search[postleitzahl]", "search[strasse]"]:
+            for key in [
+                "search[ort]",
+                "search[postleitzahl]",
+                "search[strasse]",
+                "search[hausnummer]",
+                "search[zusatz]",
+            ]:
                 if key in data:
                     fraktionen_data[key] = data[key]
 
@@ -855,6 +868,8 @@ class Source:
                         "search[ort]",
                         "search[postleitzahl]",
                         "search[strasse]",
+                        "search[hausnummer]",
+                        "search[zusatz]",
                     ]:
                         if key in data:
                             post_data.append((key, data[key]))
