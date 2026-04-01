@@ -69,7 +69,7 @@ class Source:
 
         return pickup_date_response
 
-    def generate_form_data(self, addr_1: str, addr_2: str) -> str:
+    def generate_form_data(self, addr_1: str, addr_2: str) -> Dict[str, str]:
         state_response = self._session.get(self.WASTE_URL)
         soup = BeautifulSoup(state_response.content, "html.parser")
         view_state = soup.find("input", attrs={"id": "__VIEWSTATE"})["value"]
