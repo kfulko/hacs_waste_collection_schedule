@@ -62,7 +62,7 @@ class Source:
         r = s.get(API_URL)
         r.raise_for_status()
 
-        args: dict[str, str] = POST_ARGS
+        args: dict[str, str] = POST_ARGS.copy()
 
         soup = BeautifulSoup(r.text, "html.parser")
 
@@ -108,7 +108,7 @@ class Source:
             None,
         )
 
-        if args[POST_POST_UPRN_KEY] == "":
+        if args[POST_POST_UPRN_KEY] is None:
             raise Exception("Address not found")
 
         args[POST_POST_UPRN_KEY + "lbltxt"] = self._address
