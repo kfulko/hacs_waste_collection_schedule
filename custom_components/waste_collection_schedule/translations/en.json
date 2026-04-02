@@ -19934,6 +19934,31 @@
           "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
+      "args_watford_gov_uk": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "A more readable name for the waste calendar.",
+          "uprn": "An easy way to discover your UPRN is by going to {url_www_findmyaddress_co_uk}."
+        }
+      },
+      "reconfigure_watford_gov_uk": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "uprn": "An easy way to discover your UPRN is by going to {url_www_findmyaddress_co_uk}."
+        }
+      },
       "args_waverley_gov_uk": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
