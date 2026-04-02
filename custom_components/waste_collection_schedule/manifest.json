@@ -15,7 +15,7 @@
     "lxml",
     "pycryptodome",
     "pypdf",
-    "curl_cffi"
+    "curl_cffi>=0.7.0"
   ],
   "version": "2.12.1"
 }
