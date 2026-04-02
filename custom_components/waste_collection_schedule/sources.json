@@ -4631,6 +4631,12 @@
       "id": "opendata_bordeauxmetropole_fr"
     },
     {
+      "title": "M\u00e9motri - Agglom\u00e9ration Pau B\u00e9arn Pyr\u00e9n\u00e9es",
+      "module": "memotri_agglo_pau_fr",
+      "default_params": {},
+      "id": "memotri_agglo_pau_fr"
+    },
+    {
       "title": "M\u00e9rignac",
       "module": "opendata_bordeauxmetropole_fr",
       "default_params": {
@@ -5554,6 +5560,12 @@
       "module": "abfallwirtschaft_vechta_de",
       "default_params": {},
       "id": "abfallwirtschaft_vechta_de"
+    },
+    {
+      "title": "AWB Ammerland",
+      "module": "awb_ammerland_de",
+      "default_params": {},
+      "id": "awb_ammerland_de"
     },
     {
       "title": "AWB Bad Kreuznach",
@@ -10230,6 +10242,12 @@
       "module": "fkf_bo_hu",
       "default_params": {},
       "id": "fkf_bo_hu"
+    },
+    {
+      "title": "Gy\u0151ri Hullad\u00e9kgazd\u00e1lkod\u00e1si Nonprofit Kft.",
+      "module": "gyhg_hu",
+      "default_params": {},
+      "id": "gyhg_hu"
     },
     {
       "title": "MOHU Budapest",
@@ -16067,6 +16085,12 @@
         "split_at": "\\, (?:and )?|(?: and )"
       },
       "id": "ics_recollect"
+    },
+    {
+      "title": "Midlothian Council",
+      "module": "midlothian_gov_uk",
+      "default_params": {},
+      "id": "midlothian_gov_uk"
     },
     {
       "title": "Milton Keynes council",

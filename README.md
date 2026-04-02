@@ -797,6 +797,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Le Taillan-Médoc](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
 - [Mairie de Mamirolle](/doc/source/mamirolle_info.md) / mamirolle.info
 - [Martignas-sur-Jalle](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
+- [Mémotri - Agglomération Pau Béarn Pyrénées](/doc/source/memotri_agglo_pau_fr.md) / memotri.agglo-pau.fr
 - [Mérignac](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
 - [Métropole Européenne de Lille](/doc/source/publidata_fr.md) / lillemetropole.fr
 - [Orléans Métropole](/doc/source/publidata_fr.md) / triermondechet.orleans-metropole.fr
@@ -929,6 +930,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [AVR Kommunal, Rhein-Neckar-Kreis](/doc/source/abfall_io.md) / avr-kommunal.de
 - [AWA Entsorgungs GmbH](/doc/source/abfallnavi_de.md) / awa-gmbh.de
 - [AWB Abfallwirtschaft Vechta](/doc/source/abfallwirtschaft_vechta_de.md) / abfallwirtschaft-vechta.de
+- [AWB Ammerland](/doc/source/awb_ammerland_de.md) / awb-ammerland.de
 - [AWB Bad Kreuznach](/doc/source/awb_bad_kreuznach_de.md) / blupassionsystem.de/city/rest/garbageregion/filterRegion
 - [AWB Köln](/doc/source/awbkoeln_de.md) / awbkoeln.de
 - [AWB Landkreis Bad Dürkheim](/doc/source/awido_de.md) / awb.kreis-bad-duerkheim.de
@@ -1554,6 +1556,7 @@ If your service provider is not listed, feel free to open a [source request issu
 <summary>Hungary</summary>
 
 - [FKF Budaörs](/doc/source/fkf_bo_hu.md) / fkf.hu
+- [Győri Hulladékgazdálkodási Nonprofit Kft.](/doc/source/gyhg_hu.md) / gyhg.hu
 - [MOHU Budapest](/doc/source/mohu_bp_hu.md) / mohubudapest.hu
 - [ÉTH (Érd, Diósd, Nagytarcsa, Sóskút, Tárnok)](/doc/source/eth_erd_hu.md) / eth-erd.hu
 </details>
@@ -2495,6 +2498,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Mid Devon District Council](/doc/source/mid_devon_gov_uk.md) / middevon.gov.uk
 - [Mid Sussex District Council (Whitespace WRP)](/doc/source/midsussex_gov_uk.md) / midsussex.gov.uk/waste-and-recycling
 - [Middlesbrough Council](/doc/ics/recollect.md) / middlesbrough.gov.uk
+- [Midlothian Council](/doc/source/midlothian_gov_uk.md) / my.midlothian.gov.uk
 - [Milton Keynes council](/doc/source/milton_keynes_gov_uk.md) / milton-keynes.gov.uk
 - [Monmouthshire Council](/doc/source/monmouthshire_gov_uk.md) / monmouthshire.gov.uk
 - [Moray Council](/doc/source/moray_gov_uk.md) / moray.gov.uk
