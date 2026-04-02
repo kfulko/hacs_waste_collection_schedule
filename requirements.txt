@@ -1,5 +1,4 @@
 beautifulsoup4>=4.12.2
-cloudscraper>=1.2.71
 curl_cffi
 DateTime>=4.9
 icalendar>=4.0.9
