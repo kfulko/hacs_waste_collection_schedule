@@ -9,6 +9,11 @@ from waste_collection_schedule.exceptions import (
     SourceArgumentException,
     SourceArgumentExceptionMultiple,
 )
+TEST_CASES = {
+    "1 Coningsby Drive, Watford": {
+        "uprn": "100080932722",
+    }
+}
 
 TITLE = "Watford Borough Council"
 DESCRIPTION = "Source for waste collection services for Watford Borough Council"
