@@ -14,7 +14,8 @@
     "lxml",
     "pycryptodome",
     "pypdf",
-    "cloudscraper"
+    "cloudscraper",
+    "pdfplumber"
   ],
   "version": "2.12.1"
 }

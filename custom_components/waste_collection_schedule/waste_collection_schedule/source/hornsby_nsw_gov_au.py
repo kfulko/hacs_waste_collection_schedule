@@ -7,9 +7,11 @@ import re
 import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
+from io import BytesIO
 from statistics import median
-from typing import Any, cast
+from typing import Any
 
+from pypdf import PdfReader
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
 
 TITLE = "Hornsby Shire Council"
@@ -205,21 +207,69 @@ def _classify_fill(rgb: tuple[float, float, float]) -> str:
     return "unknown"
 
 
+def _normalize_color_to_rgb(
+    color: Any,
+) -> tuple[float, float, float] | None:
+    """Normalize a pdfplumber/pdfminer color value to an (r, g, b) tuple with values 0–1."""
+    if color is None:
+        return None
+    if isinstance(color, (list, tuple)):
+        if len(color) == 3:
+            # DeviceRGB
+            return (float(color[0]), float(color[1]), float(color[2]))
+        if len(color) == 4:
+            # DeviceCMYK → convert to RGB
+            c, m, y, k = (float(v) for v in color)
+            return ((1 - c) * (1 - k), (1 - m) * (1 - k), (1 - y) * (1 - k))
+        if len(color) == 1:
+            # Grayscale
+            g = float(color[0])
+            return (g, g, g)
+    if isinstance(color, (int, float)):
+        # Grayscale scalar
+        g = float(color)
+        return (g, g, g)
+    return None
+
+
+def _group_words_into_lines(
+    words: list[dict[str, Any]], y_tolerance: float = 5.0
+) -> list[list[dict[str, Any]]]:
+    """Group pdfplumber word dicts into text lines by proximity of their 'top' coordinate."""
+    if not words:
+        return []
+    sorted_words = sorted(words, key=lambda w: float(w["top"]))
+    lines: list[list[dict[str, Any]]] = []
+    current_line: list[dict[str, Any]] = [sorted_words[0]]
+    current_top = float(sorted_words[0]["top"])
+    for w in sorted_words[1:]:
+        w_top = float(w["top"])
+        if w_top - current_top <= y_tolerance:
+            current_line.append(w)
+        else:
+            lines.append(sorted(current_line, key=lambda w: float(w["x0"])))
+            current_line = [w]
+            current_top = w_top
+    if current_line:
+        lines.append(sorted(current_line, key=lambda w: float(w["x0"])))
+    return lines
+
+
 def _extract_events_from_weekly_pdf(pdf_bytes: bytes) -> list[Collection]:
     """Extract green waste and recycling events from the weekly calendar PDF."""
     try:
-        import pymupdf
+        import pdfplumber
     except ImportError as e:
         raise ImportError(
-            "PyMuPDF is required for PDF extraction. "
-            "Please install it with: pip install pymupdf"
+            "pdfplumber is required for PDF extraction. "
+            "Please install it with: pip install pdfplumber"
         ) from e
 
-    with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
-        if doc.page_count < 1:
-            raise ValueError("Empty PDF")
+    with pdfplumber.open(BytesIO(pdf_bytes)) as pdf:
+        if not pdf.pages:
+            raise ValueError("Weekly calendar PDF contains no pages")
 
-        page = doc[0]
+        page = pdf.pages[0]
 
         # Extract month headers
         rx = re.compile(
@@ -227,33 +277,33 @@ def _extract_events_from_weekly_pdf(pdf_bytes: bytes) -> list[Collection]:
             r"OCTOBER|NOVEMBER|DECEMBER)\s+(\d{4})$"
         )
 
-        text = page.get_text("dict")
+        words = page.extract_words(x_tolerance=3, y_tolerance=3)
+        text_lines = _group_words_into_lines(words)
         headers: list[dict[str, Any]] = []
 
-        for block in text.get("blocks", []):
-            for line in block.get("lines", []):
-                line_text = "".join(
-                    span["text"] for span in line.get("spans", [])
-                ).strip()
-                m = rx.match(line_text)
-                if not m:
-                    continue
+        for line_words in text_lines:
+            line_text = " ".join(w["text"] for w in line_words).strip()
+            m = rx.match(line_text)
+            if not m:
+                continue
 
-                bbox = pymupdf.Rect(line["bbox"])
-                cx = (bbox.x0 + bbox.x1) / 2.0
-                cy = (bbox.y0 + bbox.y1) / 2.0
-                headers.append(
-                    {
-                        "month": m.group(1),
-                        "year": int(m.group(2)),
-                        "bbox": bbox,
-                        "center": (cx, cy),
-                        "col": None,
-                    }
-                )
+            x0 = min(float(w["x0"]) for w in line_words)
+            x1 = max(float(w["x1"]) for w in line_words)
+            top = min(float(w["top"]) for w in line_words)
+            bottom = max(float(w["bottom"]) for w in line_words)
+            cx = (x0 + x1) / 2.0
+            cy = (top + bottom) / 2.0
+            headers.append(
+                {
+                    "month": m.group(1),
+                    "year": int(m.group(2)),
+                    "center": (cx, cy),
+                    "col": None,
+                }
+            )
 
         if not headers:
-            raise ValueError("No month headers found in PDF.")
+            raise ValueError("No month headers found in weekly calendar PDF.")
 
         # Assign columns to headers using k-means-like clustering
         ncols = 4
@@ -288,41 +338,42 @@ def _extract_events_from_weekly_pdf(pdf_bytes: bytes) -> list[Collection]:
                 key=lambda i: abs(h["center"][0] - col_centers[i]),
             )
 
-        # Extract digit words
-        digit_words: list[tuple[int, Any]] = []
-        for x0, y0, x1, y1, txt, *_ in page.get_text("words"):
-            if re.fullmatch(r"\d{1,2}", txt):
-                digit_words.append((int(txt), pymupdf.Rect(x0, y0, x1, y1)))
+        # Extract digit words (day numbers) with their bounding boxes
+        digit_words: list[tuple[int, dict[str, Any]]] = [
+            (int(w["text"]), w)
+            for w in words
+            if re.fullmatch(r"\d{1,2}", w["text"])
+        ]
 
         # Extract marker shapes (coloured squares that indicate collection type)
-        drawings = page.get_drawings()
+        # pdfplumber exposes page.rects with non_stroking_color for the fill colour
         by_fill: dict[str, list[dict[str, Any]]] = {}
-        for drawing in cast(list[dict[str, Any]], drawings):
-            fill = drawing.get("fill")
-            if fill is None or _is_near_white(fill):
+        for rect in page.rects:
+            fill_color = rect.get("non_stroking_color")
+            rgb = _normalize_color_to_rgb(fill_color)
+            if rgb is None or _is_near_white(rgb):
                 continue
-            # PyMuPDF is untyped for mypy, so cast to Any for coordinate math.
-            r = cast(Any, drawing["rect"])
-            rect_w, rect_h = r.x1 - r.x0, r.y1 - r.y0
+            rect_w = float(rect["x1"]) - float(rect["x0"])
+            rect_h = float(rect["bottom"]) - float(rect["top"])
             if not (10.0 < rect_w < 25.0 and 10.0 < rect_h < 25.0):
                 continue
-            label = _classify_fill(fill)
+            label = _classify_fill(rgb)
             if label != "unknown":
-                by_fill.setdefault(label, []).append(drawing)
+                by_fill.setdefault(label, []).append(rect)
 
         # Filter markers to consistent sizes using median
         marker_sets: dict[str, list[dict[str, Any]]] = {}
         for label, items in by_fill.items():
-            widths = sorted(it["rect"].x1 - it["rect"].x0 for it in items)
-            heights = sorted(it["rect"].y1 - it["rect"].y0 for it in items)
+            widths = sorted(float(it["x1"]) - float(it["x0"]) for it in items)
+            heights = sorted(float(it["bottom"]) - float(it["top"]) for it in items)
             med_w = median(widths)
             med_h = median(heights)
 
             keep = [
                 it
                 for it in items
-                if abs((it["rect"].x1 - it["rect"].x0) - med_w) < 2.0
-                and abs((it["rect"].y1 - it["rect"].y0) - med_h) < 2.0
+                if abs((float(it["x1"]) - float(it["x0"])) - med_w) < 2.0
+                and abs((float(it["bottom"]) - float(it["top"])) - med_h) < 2.0
             ]
             if len(keep) >= 10:
                 marker_sets[label] = keep
@@ -339,22 +390,37 @@ def _extract_events_from_weekly_pdf(pdf_bytes: bytes) -> list[Collection]:
             waste_type = "Green Waste" if color == "green" else "Recycling"
 
             for marker in markers:
-                marker_rect = marker["rect"]
-                cx = (marker_rect.x0 + marker_rect.x1) / 2.0
-                cy = (marker_rect.y0 + marker_rect.y1) / 2.0
+                m_x0 = float(marker["x0"])
+                m_top = float(marker["top"])
+                m_x1 = float(marker["x1"])
+                m_bottom = float(marker["bottom"])
+                cx = (m_x0 + m_x1) / 2.0
+                cy = (m_top + m_bottom) / 2.0
 
                 # Find the day number — first try containment, then overlap
                 day = None
                 for digit, wrect in digit_words:
-                    if wrect.contains(pymupdf.Point(cx, cy)):
+                    w_x0 = float(wrect["x0"])
+                    w_top = float(wrect["top"])
+                    w_x1 = float(wrect["x1"])
+                    w_bottom = float(wrect["bottom"])
+                    if w_x0 <= cx <= w_x1 and w_top <= cy <= w_bottom:
                         day = digit
                         break
                 if day is None:
                     best_score = -1.0
                     for digit, wrect in digit_words:
-                        inter = marker_rect & wrect
-                        if not inter.is_empty:
-                            score = inter.get_area()
+                        w_x0 = float(wrect["x0"])
+                        w_top = float(wrect["top"])
+                        w_x1 = float(wrect["x1"])
+                        w_bottom = float(wrect["bottom"])
+                        # Compute intersection area
+                        ix0 = max(m_x0, w_x0)
+                        iy0 = max(m_top, w_top)
+                        ix1 = min(m_x1, w_x1)
+                        iy1 = min(m_bottom, w_bottom)
+                        if ix0 < ix1 and iy0 < iy1:
+                            score = (ix1 - ix0) * (iy1 - iy0)
                             if score > best_score:
                                 best_score = score
                                 day = digit
@@ -403,21 +469,13 @@ def _extract_events_from_weekly_pdf(pdf_bytes: bytes) -> list[Collection]:
 
 def _extract_bulky_events_from_pdf(pdf_bytes: bytes) -> list[Collection]:
     """Extract bulky waste dates from the bulky waste flyer PDF."""
-    try:
-        import pymupdf
-    except ImportError as e:
-        raise ImportError(
-            "PyMuPDF is required for PDF extraction. "
-            "Please install it with: pip install pymupdf"
-        ) from e
-
     text_parts: list[str] = []
-    with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
-        for page in doc:
-            try:
-                text_parts.append(page.get_text("text"))
-            except Exception:
-                continue
+    reader = PdfReader(BytesIO(pdf_bytes))
+    for page in reader.pages:
+        try:
+            text_parts.append(page.extract_text() or "")
+        except Exception:
+            continue
     text = "\n".join(text_parts)
 
     rx = re.compile(r"\b(\d{1,2})/(\d{1,2})/(\d{2,4})\b")
