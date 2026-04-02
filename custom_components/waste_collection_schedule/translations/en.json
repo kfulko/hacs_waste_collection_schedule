@@ -12670,7 +12670,7 @@
           "g4": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "g5": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "house_number": "House number",
-          "language": "Language (e.g. pl, en, uk, ru)",
+          "language": "Language for waste type names (pl, en, uk, ru)",
           "street": "Street",
           "town": "Town"
         }
@@ -12704,7 +12704,7 @@
           "g4": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "g5": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "house_number": "House number",
-          "language": "Language (e.g. pl, en, uk, ru)",
+          "language": "Language for waste type names (pl, en, uk, ru)",
           "street": "Street",
           "town": "Town"
         }
