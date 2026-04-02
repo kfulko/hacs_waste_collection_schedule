@@ -12957,11 +12957,11 @@
     },
     {
       "title": "Mijn Blink",
-      "module": "hvcgroep_nl",
+      "module": "ximmio_nl",
       "default_params": {
-        "service": "mijnblink"
+        "company": "mijnblink"
       },
-      "id": "hvcgroep_nl"
+      "id": "ximmio_nl"
     },
     {
       "title": "PreZero",
