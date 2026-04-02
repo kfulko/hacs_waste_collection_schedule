@@ -15,7 +15,7 @@
     "pycryptodome",
     "pypdf",
     "cloudscraper",
-    "pdfplumber"
+    "pdfminer.six"
   ],
   "version": "2.12.1"
 }
