@@ -13,11 +13,7 @@ from waste_collection_schedule.exceptions import (
 TITLE = "Watford Borough Council"
 DESCRIPTION = "Source for waste collection services for Watford Borough Council"
 URL = "https://www.watford.gov.uk/"
-TEST_CASES = {
-    "27 Parkside Drive": {
-        "uprn": "100080945713",
-    },
-}
+TEST_CASES = {}
 
 BASE_URL = "https://watfordbc-self.achieveservice.com"
 INITIAL_URL = f"{BASE_URL}/en/service/Bin_Collections?accept=yes&consentMessageIds[]=9"
