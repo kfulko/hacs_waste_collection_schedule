@@ -598,7 +598,7 @@ class Source:
             options = soup.select("option")
             if len(options) == 1:
                 data[f"search[{element_name}]"] = options[0]["value"]
-                return self.get_hnr(s, data)
+                return newxt_stage(s, data)
             value: str | None = None
             for option in options:
                 if arg_value and self.compare(arg_value, option.text):
