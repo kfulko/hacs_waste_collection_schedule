@@ -59,7 +59,7 @@ SUBURBS = get_args(SubUrbLiteral)
 
 
 class Source:
-    def __init__(self, suburb: SubUrbLiteral, street_name, street_number):
+    def __init__(self, suburb: SubUrbLiteral, street_name: str, street_number: str):
         self.suburb = suburb
         self.street_name = street_name
         self.street_number = street_number
@@ -114,7 +114,7 @@ class Source:
 
     def fetch(self):
 
-        # Initialize config for Kalamunda coundcil (intramaps SaaS)
+        # Initialize config for Kalamunda council (intramaps SaaS)
         config = IntraMapsSaaSAPI.MapsClientConfig(
             base_url="https://kalamunda.spatial.t1cloud.com",
             instance="spatial/intramaps",
@@ -122,12 +122,13 @@ class Source:
             project="d44a7973-329f-4626-9e09-35afeacc8724",
         )
 
-        self.suburb = self.suburb.upper()
+        suburb_upper = self.suburb.upper()
 
         today = date.today()
 
-        if self.suburb not in SUBURBS:
-            raise SourceArgumentNotFoundWithSuggestions("suburb", self.suburb, SUBURBS)
+        if suburb_upper not in SUBURBS:
+            raise SourceArgumentNotFoundWithSuggestions(
+                "suburb", self.suburb, SUBURBS)
 
         if self.street_number is None:
             raise SourceArgumentRequired(
@@ -149,6 +150,10 @@ class Source:
                 data_dict = client.select_address(address, self.suburb)
                 infoPanel = data_dict["response"]
 
+                if not isinstance(infoPanel, dict):
+                    raise IntraMapsSaaSAPI.IntraMapsSearchError(
+                        f"Expected dict type in response field from address search but got {type(infoPanel)}")
+
                 for waste_name, icon in ICON_MAP.items():
                     # Safely navigate the tree; if any key is missing, it returns an empty list []
                     fields = (
@@ -162,7 +167,7 @@ class Source:
                         item for item in fields if item.get("name") == waste_name
                     ]
 
-                    for _ in matches:
+                    if matches:
                         # Get the first result, that's all we need
                         raw_value = matches[0]["value"]["value"]
                         if not raw_value:
@@ -175,19 +180,21 @@ class Source:
 
                         # Determine frequency
                         interval = 0
-                        internal_search_strs = [raw_value, matches[0]["name"]]
+                        search_strings = [raw_value, matches[0]["name"]]
 
-                        for entry in internal_search_strs:
-                            if "week" in entry.lower():
-                                interval = 7
+                        for entry in search_strings:
                             if "fortnight" in entry.lower():
                                 interval = 14
+                            elif "week" in entry.lower():
+                                interval = 7
 
                         # If recurring, add entries for 1 year (52 weeks)
                         if interval > 0:
-                            # Calculate at least (two * interval) past events to align calendar in HA due to the way IntraMaps
-                            # API returns upcoming collection days.
-                            current_date = start_date - timedelta(days=interval * 2)
+                            # Calculate at least (two * interval) past events to ensure the Home Assistant calendar aligns correctly.
+                            # This is necessary because the IntraMaps API only returns upcoming collection days, and Home Assistant
+                            # may expect to see previous events to properly display recurring schedules and avoid gaps in the calendar.
+                            current_date = start_date - \
+                                timedelta(days=interval * 2)
                             # End date is 1 year from today
                             end_date = today + timedelta(days=365)
 
@@ -195,7 +202,8 @@ class Source:
                                 entries.append(
                                     Collection(
                                         date=current_date,
-                                        t=self._extract_human_waste_name(waste_name),
+                                        t=self._extract_human_waste_name(
+                                            waste_name),
                                         icon=icon,
                                     )
                                 )
@@ -205,7 +213,8 @@ class Source:
                             entries.append(
                                 Collection(
                                     date=start_date,
-                                    t=self._extract_human_waste_name(waste_name),
+                                    t=self._extract_human_waste_name(
+                                        waste_name),
                                     icon=icon,
                                 )
                             )

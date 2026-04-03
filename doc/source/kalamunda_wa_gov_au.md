@@ -30,11 +30,11 @@ waste_collection_schedule:
 ```yaml
 waste_collection_schedule:
   sources:
-    - name: rockingham_wa_gov_au
+    - name: kalamunda_wa_gov_au
       args:
         suburb: High Wycombe
         street_name: Wem Mews
-        street_number: 28
+        street_number: 27
 ```
 
 ## How to get the source arguments
