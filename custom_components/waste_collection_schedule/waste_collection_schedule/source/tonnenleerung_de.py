@@ -1,8 +1,8 @@
 import json
-import re
 from datetime import datetime
 
 import requests
+from bs4 import BeautifulSoup
 from waste_collection_schedule import Collection  # type: ignore[attr-defined]
 
 TITLE = "tonnenleerung.de LK Aichach-Friedberg + Neuburg-Schrobenhausen"
@@ -32,21 +32,7 @@ ICON_MAP = {
 
 API_URL = "https://tonnenleerung.de/{url}"
 
-# Array names included in the html file
-ARRAY_NAMES = ["blauArray", "gelbArray", "grauArray", "braunArray", "grau4Array"]
-
-REGEX_TEMPLATE = r"{array_name}\s?=\s?\[[,\"\-\d]*\]"
-
-# Array names to names shown on the frontend
-NAME_2_TYPE = {
-    "blauArray": "blau",
-    "gelbArray": "gelb",
-    "grauArray": "grau",
-    "braunArray": "Bio",
-    "grau4Array": "grau4",
-}
-
-# Map JSON keys (new format) to bin types
+# Map JSON keys to bin types
 JSON_KEY_TO_TYPE = {
     "blau": "blau",
     "gelb": "gelb",
@@ -71,42 +57,26 @@ class Source:
             self._url = self._url[1:]
 
     def fetch(self):
-        # get json file
         r = requests.get(API_URL.format(url=self._url))
         r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        script_tag = soup.find(
+            "script", {"type": "application/json", "id": "leerungsdaten"}
+        )
+        if not script_tag:
+            raise ValueError("Could not find waste collection data in HTML")
+
+        data = json.loads(script_tag.string)
 
         entries = []
+        for key, dates in data.items():
+            bin_type = JSON_KEY_TO_TYPE.get(key)
+            if not bin_type:
+                continue
 
-        # Try to find JSON data in script tag first (new format)
-        json_match = re.search(
-            r"<script type=application/json id=leerungsdaten>(.*?)</script>",
-            r.text,
-            re.DOTALL,
-        )
+            for date_str in dates:
+                date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                icon = ICON_MAP.get(bin_type)
+                entries.append(Collection(date=date, t=bin_type, icon=icon))
 
-        if json_match:
-            # New JSON format - map JSON keys to bin types consistently
-            data = json.loads(json_match.group(1))
-
-            for key, dates in data.items():
-                bin_type = JSON_KEY_TO_TYPE.get(key)
-                if not bin_type:
-                    continue
-                for date_str in dates:
-                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    icon = ICON_MAP.get(bin_type)
-                    entries.append(Collection(date=date, t=bin_type, icon=icon))
-        else:
-            # Fallback to old format
-            for array_name in ARRAY_NAMES:
-                array = re.search(REGEX_TEMPLATE.format(array_name=array_name), r.text)
-                if not array:
-                    continue
-                bin_type = NAME_2_TYPE[array_name]
-                dates = json.loads(array.group(0).split("=")[1])
-                for date_str in dates:
-                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    icon = ICON_MAP.get(bin_type)  # Collection icon
-
-                    entries.append(Collection(date=date, t=bin_type, icon=icon))
         return entries
