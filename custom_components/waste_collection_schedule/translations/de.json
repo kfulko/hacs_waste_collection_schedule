@@ -733,6 +733,26 @@
         },
         "data_description": {}
       },
+      "args_moonee_valley_vic_gov_au": {
+        "title": "Quelle konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "property_location": "Property Location"
+        },
+        "data_description": {
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet."
+        }
+      },
+      "reconfigure_moonee_valley_vic_gov_au": {
+        "title": "Quelle Neu Konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "property_location": "Property Location"
+        },
+        "data_description": {}
+      },
       "args_onkaparingacity_com": {
         "title": "Quelle konfigurieren",
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
@@ -3917,6 +3937,26 @@
         },
         "data_description": {}
       },
+      "args_memotri_agglo_pau_fr": {
+        "title": "Quelle konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "address": "Addresse"
+        },
+        "data_description": {
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet."
+        }
+      },
+      "reconfigure_memotri_agglo_pau_fr": {
+        "title": "Quelle Neu Konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "address": "Addresse"
+        },
+        "data_description": {}
+      },
       "args_sivom_rivedroite_fr": {
         "title": "Quelle konfigurieren",
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
@@ -6084,6 +6124,37 @@
           "strasse": "Straße"
         },
         "data_description": {}
+      },
+      "args_awb_ammerland_de": {
+        "title": "Quelle konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "city": "Ort",
+          "four_weekly_rest": "4-wöchentlicher Restabfallrhythmus",
+          "street": "Straße",
+          "street_section": "Straßenabschnitt"
+        },
+        "data_description": {
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet.",
+          "four_weekly_rest": "Aktivieren, wenn ein 4-wöchentlicher Abfuhrrythmus für die Restabfalltonne beantragt wurde.",
+          "street_section": "Nur erforderlich, wenn die Straße in mehrere Abschnitte aufgeteilt ist (z.B. 'nördl.d. A 28')."
+        }
+      },
+      "reconfigure_awb_ammerland_de": {
+        "title": "Quelle Neu Konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "city": "Ort",
+          "four_weekly_rest": "4-wöchentlicher Restabfallrhythmus",
+          "street": "Straße",
+          "street_section": "Straßenabschnitt"
+        },
+        "data_description": {
+          "four_weekly_rest": "Aktivieren, wenn ein 4-wöchentlicher Abfuhrrythmus für die Restabfalltonne beantragt wurde.",
+          "street_section": "Nur erforderlich, wenn die Straße in mehrere Abschnitte aufgeteilt ist (z.B. 'nördl.d. A 28')."
+        }
       },
       "args_awb_bad_kreuznach_de": {
         "title": "Quelle konfigurieren",
@@ -12516,6 +12587,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Hausnummer",
+          "language": "Language",
           "street": "Straße",
           "town": "Stadt"
         },
@@ -12538,6 +12610,7 @@
           "g4": "G4",
           "g5": "G5",
           "house_number": "Hausnummer",
+          "language": "Language",
           "street": "Straße",
           "town": "Stadt"
         },
@@ -17559,6 +17632,31 @@
         },
         "data_description": {}
       },
+      "args_midlothian_gov_uk": {
+        "title": "Quelle konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "postcode": "PLZ",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet.",
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+        }
+      },
+      "reconfigure_midlothian_gov_uk": {
+        "title": "Quelle Neu Konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "postcode": "PLZ",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+        }
+      },
       "args_milton_keynes_gov_uk": {
         "title": "Quelle konfigurieren",
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
@@ -19799,6 +19897,31 @@
         "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
         "data": {
           "calendar_title": "Kalender Titel",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+        }
+      },
+      "args_watford_gov_uk": {
+        "title": "Quelle konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "address": "Addresse",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet.",
+          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+        }
+      },
+      "reconfigure_watford_gov_uk": {
+        "title": "Quelle Neu Konfigurieren",
+        "description": "Konfiguriere deinen Service Provider. {howto}Mehr details: {docs_url}",
+        "data": {
+          "calendar_title": "Kalender Titel",
+          "address": "Addresse",
           "uprn": "UPRN"
         },
         "data_description": {

@@ -297,6 +297,12 @@
       "id": "monash_vic_gov_au"
     },
     {
+      "title": "City of Moonee Valley",
+      "module": "moonee_valley_vic_gov_au",
+      "default_params": {},
+      "id": "moonee_valley_vic_gov_au"
+    },
+    {
       "title": "City of Mount Gambier",
       "module": "app_my_local_services_au",
       "default_params": {},
@@ -4637,6 +4643,12 @@
       "id": "opendata_bordeauxmetropole_fr"
     },
     {
+      "title": "M\u00e9motri - Agglom\u00e9ration Pau B\u00e9arn Pyr\u00e9n\u00e9es",
+      "module": "memotri_agglo_pau_fr",
+      "default_params": {},
+      "id": "memotri_agglo_pau_fr"
+    },
+    {
       "title": "M\u00e9rignac",
       "module": "opendata_bordeauxmetropole_fr",
       "default_params": {
@@ -5560,6 +5572,12 @@
       "module": "abfallwirtschaft_vechta_de",
       "default_params": {},
       "id": "abfallwirtschaft_vechta_de"
+    },
+    {
+      "title": "AWB Ammerland",
+      "module": "awb_ammerland_de",
+      "default_params": {},
+      "id": "awb_ammerland_de"
     },
     {
       "title": "AWB Bad Kreuznach",
@@ -12951,11 +12969,11 @@
     },
     {
       "title": "Mijn Blink",
-      "module": "hvcgroep_nl",
+      "module": "ximmio_nl",
       "default_params": {
-        "service": "mijnblink"
+        "company": "mijnblink"
       },
-      "id": "hvcgroep_nl"
+      "id": "ximmio_nl"
     },
     {
       "title": "PreZero",
@@ -16081,6 +16099,12 @@
       "id": "ics_recollect"
     },
     {
+      "title": "Midlothian Council",
+      "module": "midlothian_gov_uk",
+      "default_params": {},
+      "id": "midlothian_gov_uk"
+    },
+    {
       "title": "Milton Keynes council",
       "module": "milton_keynes_gov_uk",
       "default_params": {},
@@ -16761,6 +16785,12 @@
       "module": "warwickdc_gov_uk",
       "default_params": {},
       "id": "warwickdc_gov_uk"
+    },
+    {
+      "title": "Watford Borough Council",
+      "module": "watford_gov_uk",
+      "default_params": {},
+      "id": "watford_gov_uk"
     },
     {
       "title": "Waverley Borough Council",

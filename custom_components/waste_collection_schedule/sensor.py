@@ -135,6 +135,11 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     api = hass.data[DOMAIN].get("YAML_CONFIG")
 
+    if api is None:
+        raise Exception(
+            "Waste Collection Schedule YAML configuration not found, please check you have configured sources under waste_collection_schedule: in your configuration.yaml"
+        )
+
     # create aggregator for all sources
     source_index = config[CONF_SOURCE_INDEX]
     if not isinstance(source_index, list):

@@ -761,6 +761,26 @@
           "address": "Full street address including suburb and postal code"
         }
       },
+      "args_moonee_valley_vic_gov_au": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "property_location": "Property Location"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used."
+        }
+      },
+      "reconfigure_moonee_valley_vic_gov_au": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "property_location": "Property Location"
+        },
+        "data_description": {}
+      },
       "args_onkaparingacity_com": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
@@ -3989,6 +4009,29 @@
         },
         "data_description": {}
       },
+      "args_memotri_agglo_pau_fr": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "address": "Full address including street number, e.g. '39 avenue larribau 64000 Pau'"
+        }
+      },
+      "reconfigure_memotri_agglo_pau_fr": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address"
+        },
+        "data_description": {
+          "address": "Full address including street number, e.g. '39 avenue larribau 64000 Pau'"
+        }
+      },
       "args_sivom_rivedroite_fr": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
@@ -6156,6 +6199,37 @@
           "strasse": "Street"
         },
         "data_description": {}
+      },
+      "args_awb_ammerland_de": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "city": "City",
+          "four_weekly_rest": "4-weekly residual waste collection",
+          "street": "Street",
+          "street_section": "Street section"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "four_weekly_rest": "Enable if a 4-weekly collection interval for residual waste has been requested.",
+          "street_section": "Only required if the street is divided into sections (e.g. 'nördl.d. A 28')."
+        }
+      },
+      "reconfigure_awb_ammerland_de": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "city": "City",
+          "four_weekly_rest": "4-weekly residual waste collection",
+          "street": "Street",
+          "street_section": "Street section"
+        },
+        "data_description": {
+          "four_weekly_rest": "Enable if a 4-weekly collection interval for residual waste has been requested.",
+          "street_section": "Only required if the street is divided into sections (e.g. 'nördl.d. A 28')."
+        }
       },
       "args_awb_bad_kreuznach_de": {
         "title": "Configure Source",
@@ -12625,6 +12699,7 @@
           "g4": "Group 4",
           "g5": "Group 5",
           "house_number": "House number",
+          "language": "Language",
           "street": "Street",
           "town": "Town"
         },
@@ -12639,6 +12714,7 @@
           "g4": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "g5": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "house_number": "House number",
+          "language": "Language for waste type names (pl, en, uk, ru)",
           "street": "Street",
           "town": "Town"
         }
@@ -12658,6 +12734,7 @@
           "g4": "Group 4",
           "g5": "Group 5",
           "house_number": "House number",
+          "language": "Language",
           "street": "Street",
           "town": "Town"
         },
@@ -12671,6 +12748,7 @@
           "g4": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "g5": "Select Collection group to limit results to a specific group within a waste type (e.g. 'Papier (1 x miesiąc)' for Paper collected once a month). Leave empty and only fill if it fails, you'll then see a list of available groups.",
           "house_number": "House number",
+          "language": "Language for waste type names (pl, en, uk, ru)",
           "street": "Street",
           "town": "Town"
         }
@@ -15037,7 +15115,7 @@
         },
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_bridgend_gov_uk": {
@@ -15048,7 +15126,7 @@
           "uprn": "Unique Property Reference Number (UPRN)"
         },
         "data_description": {
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_bristol_gov_uk": {
@@ -15772,7 +15850,7 @@
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
           "postcode": "Postcode of your property",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_cumberland_gov_uk": {
@@ -15785,7 +15863,7 @@
         },
         "data_description": {
           "postcode": "Postcode of your property",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_dacorum_gov_uk": {
@@ -15845,7 +15923,7 @@
         },
         "data_description": {
           "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "reconfigure_dartford_gov_uk": {
@@ -15856,7 +15934,7 @@
           "uprn": "Unique Property Reference Number (UPRN)"
         },
         "data_description": {
-          "uprn": "Unique Property Reference Number (UPRN)"
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
         }
       },
       "args_denbighshire_gov_uk": {
@@ -17726,6 +17804,33 @@
           "number": "Enter the house name (e.g., HAPSTEAD HALL) or number (e.g., 11), or the business name.",
           "postcode": "Enter the postcode (e.g., RH17 6TB).",
           "street": "Enter the street name (e.g., HIGH STREET)."
+        }
+      },
+      "args_midlothian_gov_uk": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "postcode": "Postcode",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "postcode": "Postcode of the property (required)",
+          "uprn": "Unique Property Reference Number (required)"
+        }
+      },
+      "reconfigure_midlothian_gov_uk": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "postcode": "Postcode",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "postcode": "Postcode of the property (required)",
+          "uprn": "Unique Property Reference Number (required)"
         }
       },
       "args_milton_keynes_gov_uk": {
@@ -19992,6 +20097,31 @@
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
         "data": {
           "calendar_title": "Calendar Title",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
+        }
+      },
+      "args_watford_gov_uk": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address",
+          "uprn": "UPRN"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "uprn": "An easy way to discover your Unique Property Reference Number (UPRN) is by going to {url_www_findmyaddress_co_uk} and entering in your address details."
+        }
+      },
+      "reconfigure_watford_gov_uk": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "address": "Address",
           "uprn": "UPRN"
         },
         "data_description": {

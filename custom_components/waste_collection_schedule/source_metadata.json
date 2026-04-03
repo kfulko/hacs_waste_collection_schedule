@@ -155,6 +155,11 @@
     },
     "urls": {}
   },
+  "moonee_valley_vic_gov_au": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/moonee_valley_vic_gov_au.md",
+    "howto": {},
+    "urls": {}
+  },
   "onkaparingacity_com": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/onkaparingacity_com.md",
     "howto": {},
@@ -741,6 +746,14 @@
     "howto": {},
     "urls": {}
   },
+  "memotri_agglo_pau_fr": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/memotri_agglo_pau_fr.md",
+    "howto": {
+      "en": "Enter your full address as you would on the memotri.agglo-pau.fr website, including street number, street name, postal code, and city.",
+      "fr": "Saisissez votre adresse complète comme sur le site memotri.agglo-pau.fr, avec numéro de rue, nom de rue, code postal et ville."
+    },
+    "urls": {}
+  },
   "sivom_rivedroite_fr": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/sivom_rivedroite_fr.md",
     "howto": {},
@@ -930,6 +943,11 @@
   },
   "abfallwirtschaft_vechta_de": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/abfallwirtschaft_vechta_de.md",
+    "howto": {},
+    "urls": {}
+  },
+  "awb_ammerland_de": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/awb_ammerland_de.md",
     "howto": {},
     "urls": {}
   },
@@ -2931,6 +2949,15 @@
     },
     "urls": {}
   },
+  "midlothian_gov_uk": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/midlothian_gov_uk.md",
+    "howto": {
+      "en": "Find your UPRN and postcode from your council documents or invoices."
+    },
+    "urls": {
+      "url_www_findmyaddress_co_uk": "https://www.findmyaddress.co.uk/"
+    }
+  },
   "milton_keynes_gov_uk": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/milton_keynes_gov_uk.md",
     "howto": {},
@@ -3575,6 +3602,13 @@
   },
   "warwickdc_gov_uk": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/warwickdc_gov_uk.md",
+    "howto": {},
+    "urls": {
+      "url_www_findmyaddress_co_uk": "https://www.findmyaddress.co.uk/"
+    }
+  },
+  "watford_gov_uk": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/watford_gov_uk.md",
     "howto": {},
     "urls": {
       "url_www_findmyaddress_co_uk": "https://www.findmyaddress.co.uk/"

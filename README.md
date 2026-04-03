@@ -75,6 +75,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [City of Kingston](/doc/source/kingston_vic_gov_au.md) / kingston.vic.gov.au
 - [City of Mitcham](/doc/source/app_my_local_services_au.md) / mitchamcouncil.sa.gov.au
 - [City of Monash](/doc/source/monash_vic_gov_au.md) / monash.vic.gov.au
+- [City of Moonee Valley](/doc/source/moonee_valley_vic_gov_au.md) / mvcc.vic.gov.au
 - [City of Mount Gambier](/doc/source/app_my_local_services_au.md) / mountgambier.sa.gov.au
 - [City of Norwood Payneham and St Peters](/doc/source/app_my_local_services_au.md) / npsp.sa.gov.au
 - [City of Onkaparinga](/doc/source/app_my_local_services_au.md) / onkaparingacity.com
@@ -798,6 +799,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Le Taillan-Médoc](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
 - [Mairie de Mamirolle](/doc/source/mamirolle_info.md) / mamirolle.info
 - [Martignas-sur-Jalle](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
+- [Mémotri - Agglomération Pau Béarn Pyrénées](/doc/source/memotri_agglo_pau_fr.md) / memotri.agglo-pau.fr
 - [Mérignac](/doc/source/opendata_bordeauxmetropole_fr.md) / opendata.bordeaux-metropole.fr
 - [Métropole Européenne de Lille](/doc/source/publidata_fr.md) / lillemetropole.fr
 - [Orléans Métropole](/doc/source/publidata_fr.md) / triermondechet.orleans-metropole.fr
@@ -930,6 +932,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [AVR Kommunal, Rhein-Neckar-Kreis](/doc/source/abfall_io.md) / avr-kommunal.de
 - [AWA Entsorgungs GmbH](/doc/source/abfallnavi_de.md) / awa-gmbh.de
 - [AWB Abfallwirtschaft Vechta](/doc/source/abfallwirtschaft_vechta_de.md) / abfallwirtschaft-vechta.de
+- [AWB Ammerland](/doc/source/awb_ammerland_de.md) / awb-ammerland.de
 - [AWB Bad Kreuznach](/doc/source/awb_bad_kreuznach_de.md) / blupassionsystem.de/city/rest/garbageregion/filterRegion
 - [AWB Köln](/doc/source/awbkoeln_de.md) / awbkoeln.de
 - [AWB Landkreis Bad Dürkheim](/doc/source/awido_de.md) / awb.kreis-bad-duerkheim.de
@@ -2006,7 +2009,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Goes](/doc/ics/goes_nl.md) / goes.nl
 - [HVC Groep](/doc/source/hvcgroep_nl.md) / hvcgroep.nl
 - [Meerlanden](/doc/source/ximmio_nl.md) / meerlanden.nl
-- [Mijn Blink](/doc/source/hvcgroep_nl.md) / mijnblink.nl
+- [Mijn Blink](/doc/source/ximmio_nl.md) / mijnblink.nl
 - [PreZero](/doc/source/hvcgroep_nl.md) / prezero.nl
 - [Purmerend](/doc/source/hvcgroep_nl.md) / purmerend.nl
 - [RAD BV](/doc/source/ximmio_nl.md) / radbv.nl
@@ -2497,6 +2500,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Mid Devon District Council](/doc/source/mid_devon_gov_uk.md) / middevon.gov.uk
 - [Mid Sussex District Council (Whitespace WRP)](/doc/source/midsussex_gov_uk.md) / midsussex.gov.uk/waste-and-recycling
 - [Middlesbrough Council](/doc/ics/recollect.md) / middlesbrough.gov.uk
+- [Midlothian Council](/doc/source/midlothian_gov_uk.md) / my.midlothian.gov.uk
 - [Milton Keynes council](/doc/source/milton_keynes_gov_uk.md) / milton-keynes.gov.uk
 - [Monmouthshire Council](/doc/source/monmouthshire_gov_uk.md) / monmouthshire.gov.uk
 - [Moray Council](/doc/source/moray_gov_uk.md) / moray.gov.uk
@@ -2607,6 +2611,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Wandsworth Council](/doc/source/wandsworth_gov_uk.md) / wandsworth.gov.uk
 - [Warrington Borough Council](/doc/source/warrington_gov_uk.md) / warrington.gov.uk
 - [Warwick District Council](/doc/source/warwickdc_gov_uk.md) / warwickdc.gov.uk
+- [Watford Borough Council](/doc/source/watford_gov_uk.md) / watford.gov.uk
 - [Waverley Borough Council](/doc/source/waverley_gov_uk.md) / waverley.gov.uk
 - [Wealden District Council](/doc/source/wealden_gov_uk.md) / wealden.gov.uk
 - [Welwyn Hatfield Borough Council](/doc/source/welhat_gov_uk.md) / welhat.gov.uk
