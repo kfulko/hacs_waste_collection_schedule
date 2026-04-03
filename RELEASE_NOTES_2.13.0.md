@@ -26,6 +26,8 @@
 - fixed AHK Heidekreis, DE: handle API field name changes robustly (#5692)
 - fixed Tauranga, NZ: updated API URLs and improved form field discovery (thanks @samwalshnz) (#5610)
 - fixed Melton, VIC, AU: refactored date parsing and validation (thanks @viperaus) (#5715)
+- fixed Umweltverbände (Gänserndorf), AT: fix street filtering and centralize filter keys (thanks @zaubara) (#5689)
+- fixed Lumire, SE: API fix (thanks @chex7) (#5332)
 
 ## Improved Sources
 
@@ -38,4 +40,4 @@
 
 Welcome to the following first-time contributors! :tada:
 
-@Brodiemm, @Cironni, @CraigBell, @mvandersteen, @ryanbdclark, @samwalshnz, @vchatela, @vivekxp, @viperaus, @xesxen
+@Brodiemm, @chex7, @Cironni, @CraigBell, @mvandersteen, @ryanbdclark, @samwalshnz, @vchatela, @vivekxp, @viperaus, @xesxen, @zaubara
