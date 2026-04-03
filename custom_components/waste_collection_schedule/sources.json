@@ -7983,6 +7983,12 @@
       "id": "muellabfuhr_de"
     },
     {
+      "title": "Landkreis Holzminden",
+      "module": "ics",
+      "default_params": {},
+      "id": "ics_abfall_app_net"
+    },
+    {
       "title": "Landkreis Kaiserslautern",
       "module": "ics",
       "default_params": {},
