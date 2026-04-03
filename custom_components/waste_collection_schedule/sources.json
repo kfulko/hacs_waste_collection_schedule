@@ -3978,6 +3978,15 @@
       "id": "recyclecoach_com"
     },
     {
+      "title": "Burnaby (BC)",
+      "module": "recyclecoach_com",
+      "default_params": {
+        "city": "Burnaby",
+        "state": "British Columbia"
+      },
+      "id": "recyclecoach_com"
+    },
+    {
       "title": "Calgary (AB)",
       "module": "calgary_ca",
       "default_params": {},
