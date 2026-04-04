@@ -1590,6 +1590,11 @@
     "howto": {},
     "urls": {}
   },
+  "western_bay_of_plenty_nz": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/western_bay_of_plenty_nz.md",
+    "howto": {},
+    "urls": {}
+  },
   "avfallsor_no": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/avfallsor_no.md",
     "howto": {},
