@@ -651,6 +651,11 @@
     },
     "urls": {}
   },
+  "ozoostrava_cz": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/ozoostrava_cz.md",
+    "howto": {},
+    "urls": {}
+  },
   "api_golemio_cz": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/api_golemio_cz.md",
     "howto": {},

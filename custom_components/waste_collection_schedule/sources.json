@@ -4352,6 +4352,12 @@
       "id": "laznebohdanec_cz"
     },
     {
+      "title": "OZO Ostrava",
+      "module": "ozoostrava_cz",
+      "default_params": {},
+      "id": "ozoostrava_cz"
+    },
+    {
       "title": "Praha",
       "module": "api_golemio_cz",
       "default_params": {},

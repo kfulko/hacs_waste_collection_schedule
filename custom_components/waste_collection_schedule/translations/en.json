@@ -3728,6 +3728,32 @@
           "url": "Direct URL to the XLSX file with dates"
         }
       },
+      "args_ozoostrava_cz": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "cislo": "Cislo",
+          "obec": "Obec",
+          "obvod": "Obvod",
+          "ulice": "Ulice"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used."
+        }
+      },
+      "reconfigure_ozoostrava_cz": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "cislo": "Cislo",
+          "obec": "Obec",
+          "obvod": "Obvod",
+          "ulice": "Ulice"
+        },
+        "data_description": {}
+      },
       "args_api_golemio_cz": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
