@@ -15136,7 +15136,8 @@
         "data": {
           "calendar_title": "Kalender Titel",
           "address": "Addresse",
-          "postcode": "PLZ"
+          "postcode": "PLZ",
+          "uprn": "UPRN"
         },
         "data_description": {
           "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet."
@@ -15148,7 +15149,8 @@
         "data": {
           "calendar_title": "Kalender Titel",
           "address": "Addresse",
-          "postcode": "PLZ"
+          "postcode": "PLZ",
+          "uprn": "UPRN"
         },
         "data_description": {}
       },
@@ -19401,8 +19403,7 @@
           "uprn": "UPRN"
         },
         "data_description": {
-          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet.",
-          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
+          "calendar_title": "Ein lesbarerer oder benutzerfreundlicherer Name für den Müllkalender. Wenn nichts angegeben wird, wird der Name der Quelle verwendet."
         }
       },
       "reconfigure_rugby_gov_uk": {
@@ -19412,9 +19413,7 @@
           "calendar_title": "Kalender Titel",
           "uprn": "UPRN"
         },
-        "data_description": {
-          "uprn": "Eine einfache Möglichkeit, Ihre Unique Property Reference Number (UPRN) zu finden, besteht darin, auf {url_www_findmyaddress_co_uk} zu gehen und Ihre Adressdaten einzugeben."
-        }
+        "data_description": {}
       },
       "args_runnymede_gov_uk": {
         "title": "Quelle konfigurieren",
