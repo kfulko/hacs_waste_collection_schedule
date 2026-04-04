@@ -2660,6 +2660,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Wirral Council](/doc/source/wirral_gov_uk.md) / wirral.gov.uk
 - [Woking Borough Council](/doc/source/jointwastesolutions_org.md) / woking.gov.uk
 - [Wokingham Borough Council](/doc/source/wokingham_gov_uk.md) / wokingham.gov.uk
+- [Wolverhampton City Council](/doc/source/wolverhampton_gov_uk.md) / wolverhampton.gov.uk
 - [Worcester City](/doc/source/roundlookup_uk.md) / worcester.gov.uk
 - [Wrexham County Borough Council](/doc/source/wrexham_gov_uk.md) / wrexham.gov.uk
 - [Wychavon](/doc/source/roundlookup_uk.md) / wychavon.gov.uk
