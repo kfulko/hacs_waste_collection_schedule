@@ -692,6 +692,13 @@
     },
     "urls": {}
   },
+  "kolding_dk": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/kolding_dk.md",
+    "howto": {
+      "en": "Go to https://kolding.infovision.dk/public/selectaddress and search for your address. Your ID is in the URL, e.g. `00007b8d-0002-0001-4164-647265737320`."
+    },
+    "urls": {}
+  },
   "odenserenovation_dk": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/odenserenovation_dk.md",
     "howto": {},
