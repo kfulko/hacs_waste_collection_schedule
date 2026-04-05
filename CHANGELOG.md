@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 
 Releases are listed in reverse chronological order.
 
+## [2.16.0] - 2026-04-06
+
+### Added Sources
+
+- added Entsorgungsverband Völklingen (EVV), Saarland, DE (thanks @Synthenses) (#5812)
+- added SmiecioPlan.pl (Szczecin, Gdańsk, Gdynia, Sopot), PL (#5813)
+- added North Yorkshire Council - Craven, UK (thanks @Jakmg) (#5810)
+- added Basel-Stadt (data.bs.ch), CH (#5807)
+- added Gemeinde24, AT (thanks @svenbla) (#5799)
+- added Buchegg (Solothurn), CH (thanks @CRZTFR) (#5791)
+
+### Fixed Sources
+
+- fixed frwa_com_au: use regex for ajax_nonce after website redesign (#5800)
+- fixed ximmio/mijnblink: use correct Service URL (#5795)
+- fixed publidata_fr: add optional public_type parameter for housing type filtering (#5814)
+
+### New ICS Sources
+
+- added Vlotho, DE (#5811)
+- added Eupen (Oberstadt, Unterstadt, Kettenis), BE (#5804)
+
+### Expanded Existing Sources
+
+- added Landkreis Lichtenfels to AWIDO source (#5801)
+- added CA Saint Germain Boucles de Seine to Publidata source (#5809)
+- added Wöllersdorf-Steinabrückl to CITIES App source (#5806)
+- added BAT Tilburg, Groningen, and Utrecht to BurgerPortaal source (#5805)
+
 ## [2.15.0] - 2026-04-05
 
 ### Core Changes
