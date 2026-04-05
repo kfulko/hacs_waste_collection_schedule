@@ -2340,6 +2340,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Andwil](/doc/source/a_region_ch.md) / a-region.ch
 - [Appenzell](/doc/source/a_region_ch.md) / a-region.ch
 - [Berg](/doc/source/a_region_ch.md) / a-region.ch
+- [Buchegg](/doc/source/buchegg_so_ch.md) / buchegg-so.ch
 - [Bühler](/doc/source/a_region_ch.md) / a-region.ch
 - [Canton of Zürich](/doc/ics/openerz_metaodi_ch.md) / openerz.metaodi.ch
 - [Eggersriet](/doc/source/a_region_ch.md) / a-region.ch
