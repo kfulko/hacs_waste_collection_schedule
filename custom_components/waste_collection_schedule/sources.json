@@ -13076,6 +13076,12 @@
       "id": "esch_lu"
     },
     {
+      "title": "Luxembourg",
+      "module": "luxembourg_lu",
+      "default_params": {},
+      "id": "luxembourg_lu"
+    },
+    {
       "title": "SICA",
       "module": "sica_lu",
       "default_params": {},
