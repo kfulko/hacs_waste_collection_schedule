@@ -15141,6 +15141,12 @@
       "id": "avfallsapp_se"
     },
     {
+      "title": "Telge \u00c5tervinning",
+      "module": "telge_se",
+      "default_params": {},
+      "id": "telge_se"
+    },
+    {
       "title": "Uppsala Vatten",
       "module": "edpevent_se",
       "default_params": {
