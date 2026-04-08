@@ -855,6 +855,14 @@
     },
     "urls": {}
   },
+  "data_grandlyon_com": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/data_grandlyon_com.md",
+    "howto": {
+      "en": "Enter your street address including the city name (e.g. '1 place Roger Salengro, Oullins').",
+      "fr": "Entrez votre adresse complète avec le nom de la commune (ex : '1 place Roger Salengro, Oullins')."
+    },
+    "urls": {}
+  },
   "sivom_rivedroite_fr": {
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/sivom_rivedroite_fr.md",
     "howto": {},

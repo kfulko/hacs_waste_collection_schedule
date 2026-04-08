@@ -4963,6 +4963,12 @@
       "id": "opendata_bordeauxmetropole_fr"
     },
     {
+      "title": "M\u00e9tropole de Lyon",
+      "module": "data_grandlyon_com",
+      "default_params": {},
+      "id": "data_grandlyon_com"
+    },
+    {
       "title": "M\u00e9tropole Europ\u00e9enne de Lille",
       "module": "publidata_fr",
       "default_params": {
