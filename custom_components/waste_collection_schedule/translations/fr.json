@@ -3793,6 +3793,29 @@
         },
         "data_description": {}
       },
+      "args_pointe_claire_qc_ca": {
+        "title": "Configurer la Source",
+        "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
+        "data": {
+          "calendar_title": "Titre du Calendrier",
+          "sector": "Secteur"
+        },
+        "data_description": {
+          "calendar_title": "Un nom plus lisible ou convivial pour le calendrier des déchets. Si aucun n'est fourni, le nom renvoyé par la source sera utilisé.",
+          "sector": "Secteur de collecte (A ou B)"
+        }
+      },
+      "reconfigure_pointe_claire_qc_ca": {
+        "title": "Reconfigurer la Source",
+        "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",
+        "data": {
+          "calendar_title": "Titre du Calendrier",
+          "sector": "Secteur"
+        },
+        "data_description": {
+          "sector": "Secteur de collecte (A ou B)"
+        }
+      },
       "args_ville_quebec_qc_ca": {
         "title": "Configurer la Source",
         "description": "Configurez votre fournisseur de services. {howto}Plus de détails : {docs_url}.",

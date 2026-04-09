@@ -3921,6 +3921,29 @@
           "address": "Your full address / Votre adresse complete"
         }
       },
+      "args_pointe_claire_qc_ca": {
+        "title": "Configure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "sector": "Sector"
+        },
+        "data_description": {
+          "calendar_title": "A more readable, or user-friendly, name for the waste calendar. If nothing is provided, the name returned by the source will be used.",
+          "sector": "Collection sector (A or B)"
+        }
+      },
+      "reconfigure_pointe_claire_qc_ca": {
+        "title": "Reconfigure Source",
+        "description": "Configure your service provider. {howto}More details: {docs_url}.",
+        "data": {
+          "calendar_title": "Calendar Title",
+          "sector": "Sector"
+        },
+        "data_description": {
+          "sector": "Collection sector (A or B)"
+        }
+      },
       "args_ville_quebec_qc_ca": {
         "title": "Configure Source",
         "description": "Configure your service provider. {howto}More details: {docs_url}.",
