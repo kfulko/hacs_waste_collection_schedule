@@ -4,6 +4,97 @@ All notable changes to this project will be documented in this file.
 
 Releases are listed in reverse chronological order.
 
+## [2.19.0] - 2026-04-13
+
+### New Services
+
+- added ArcGIS REST API service for spatial queries and geocoding (#5954)
+- added IntraMaps service for Australian council spatial queries (#5936)
+- added Pozi GIS service for GeoJSON zone lookups and WFS spatial queries (#5980)
+
+### Added Sources
+
+- added Ballina Shire Council, NSW, AU (thanks @thazza) (#5869)
+- added Byron Shire Council, NSW, AU (thanks @thazza) (#5869)
+- added Mole Valley District Council, UK (thanks @elyobelyob) (#5889)
+- added Métropole de Lyon, FR (thanks @babatoko) (#5887)
+- added Grand Besançon Métropole, FR (thanks @babatoko) (#5903)
+- added NSR (Nordvästra Skånes Renhållnings AB), SE (thanks @dt215git) (#5910)
+- added SUM Avfall (Sunnfjord og Ytre Sogn Miljøverk IKS), NO (thanks @Ziggiz) (#5907)
+- added ZVO Ostholstein, DE (thanks @dt215git) (#5913)
+- added SAB Magdeburg, DE (thanks @Habile2019) (#5915)
+- added Lane Cove Council, NSW, AU (#5922)
+- added City of Tea Tree Gully, SA, AU (#5923)
+- added City of Melville, WA, AU (#5924)
+- added City of Swan, WA, AU (#5925)
+- added Rohrbach an der Lafnitz, AT (thanks @textbookcal) (#5927)
+- added Fraser Coast Regional Council, QLD, AU (#5936)
+- added City of Kwinana, WA, AU (#5938)
+- added Brimbank City Council, VIC, AU (thanks @dt215git) (#5950)
+- added Rybnik, PL (thanks @matfiz) (#5948)
+- added Warrnambool City Council, VIC, AU (#5952)
+- added City of Bayswater, WA, AU (#5953)
+- added Town of Bassendean, WA, AU (#5954)
+- added Northville Township, MI, US (#5955)
+- added Hoover, AL, US (#5956)
+- added Launceston City Council, TAS, AU (#5957)
+- added Rochester, NY, US (#5959)
+- added City of Newcastle, NSW, AU (#5975)
+- added City of Vincent, WA, AU (#5980)
+
+### Fixed Sources
+
+- fixed Hounslow, UK: new website (thanks @kiranbhakre) (#5879)
+- fixed Blaby, UK: Food waste icon casing (thanks @dt215git) (#5880)
+- fixed publidata_fr: IndexError on empty geocoder results (#5896)
+- fixed Northern Beaches, AU: A/B zone fortnightly alternation (#5897)
+- fixed Banyule, VIC, AU: bypass Incapsula bot protection via curl_cffi (#5905)
+- fixed irenambiente_it: holidays with no replacement date (#5911)
+- fixed portenf_sa_gov_au: crash on single-month calendar (#5918)
+- fixed cardinia_vic_gov_au: crash on empty geocoder results (#5919)
+- fixed moorabool_vic_gov_au: API blocking, wrong test cases, missing icon (#5920)
+- fixed ecoharmonogram_pl: crash on mixed street sides with no matchers (thanks @czeslavo) (#5934)
+- fixed wyreforestdc_gov_uk: value on current collection day (thanks @MeltonCG) (#5947)
+- fixed westsuffolk_gov_uk: 404 (#5942)
+- fixed config flow: wrong docs for ICS sources (#5965)
+- fixed Armadale, WA, AU: updated to new API (#5940)
+
+### Expanded Existing Sources
+
+- updated FES Frankfurt to new frankfurtplus.de URL and format (#5899)
+- added generic localcities.ch source, deprecates grenchen_ch (#5902)
+- updated telge_se: distinguish kärl 1/kärl 2 as separate waste types (thanks @krissen) (#5871)
+- added Pointe-Claire, QC Sector A and B (thanks @jordanconway) (#5891)
+- added SIVOM Rive Droite to publidata_fr (#5921)
+- added Wangen bei Olten to localcities_ch (#5942)
+- migrated Reinis from Ximmio to Opzet/hvcgroep_nl (#5941)
+- updated hvcgroep_nl (thanks @kay1010100) (#5971)
+- updated EGLZ URLs (#5966)
+- updated Stirling Council, UK (#5976)
+- added jumomind_de warning when street spans multiple collection zones (#5949)
+
+### ICS Additions
+
+- added Erkelenz waste collection calendar (#5967)
+- added WBL Lünen (DE) and Georgina, ON (CA) (#5900)
+- added City of Lowell, MA to ReCollect (#5904)
+- added Medicine Hat, AB, CA (#5970)
+
+### Refactored
+
+- refactored Bayside and Waipa to use IntraMaps service (#5937, #5939)
+- refactored Frankston and Bendigo to use Pozi service (#5980)
+
+### Removed
+
+- removed regioentsorgung_de: backend dead (#5945)
+- removed Gütersloh (Stadt) gt2 from AbfallNavi: dead (#5895)
+
+### Documentation
+
+- fixed mitchellshire_vic_gov_au parameter name (#5873)
+- removed outdated Known Issues section from README (#5898)
+
 ## [2.18.0] - 2026-04-08
 
 ### Added Sources
