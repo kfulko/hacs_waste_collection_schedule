@@ -293,7 +293,7 @@ class Source:
     ):
         self.postal_code = postal_code
         self.house_number = house_number
-        self.house_letter = postal_code
+        self.house_letter = house_letter
         self.suffix = suffix
         self._url, self._icons = get_service_name_map()[service]
 
