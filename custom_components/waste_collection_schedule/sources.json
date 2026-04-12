@@ -17468,10 +17468,12 @@
       "id": "stevenage_gov_uk"
     },
     {
-      "title": "Stirling.gov.uk",
-      "module": "stirling_uk",
-      "default_params": {},
-      "id": "stirling_uk"
+      "title": "Stirling Council, UK",
+      "module": "ics",
+      "default_params": {
+        "split_at": "\\, (?:and )?|(?: and )"
+      },
+      "id": "ics_recollect"
     },
     {
       "title": "Stockport Council",
