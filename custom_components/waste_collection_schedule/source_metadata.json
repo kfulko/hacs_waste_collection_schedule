@@ -5416,5 +5416,10 @@
     "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/seattle_gov.md",
     "howto": {},
     "urls": {}
+  },
+  "sunbury_ohio_org": {
+    "docs_url": "https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/doc/source/sunbury_ohio_org.md",
+    "howto": {},
+    "urls": {}
   }
 }
