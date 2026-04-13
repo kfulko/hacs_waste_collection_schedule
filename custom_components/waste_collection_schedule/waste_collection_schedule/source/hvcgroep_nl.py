@@ -48,6 +48,7 @@ TEST_CASES = {
     },
     "Reinis": {"postal_code": "3201AA", "house_number": "1", "service": "reinis"},
     "ZRD": {"postal_code": "4691DH", "house_number": "4", "service": "zrd"},
+    "Hoorn": {"postal_code": "1628XA", "house_number": "1", "service": "hvcgroep"},
 }
 
 _LOGGER = logging.getLogger(__name__)
@@ -308,7 +309,7 @@ class Source:
             raise Exception("no data found for this address")
 
         bag_id = data[0]["bagid"]
-        if len(data) > 1 and self.house_letter and self.suffix:
+        if len(data) > 1 and (self.house_letter or self.suffix):
             _LOGGER.info(f"Checking {self.house_letter} {self.suffix}")
             for address in data:
                 if (
