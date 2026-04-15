@@ -2122,6 +2122,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Goes](/doc/ics/goes_nl.md) / goes.nl
 - [HVC Groep](/doc/source/hvcgroep_nl.md) / hvcgroep.nl
 - [Meerlanden](/doc/source/ximmio_nl.md) / meerlanden.nl
+- [Mijn Afval Zaken - BUCH](/doc/source/hvcgroep_nl.md) / mijnafvalzaken.nl
 - [Mijn Blink](/doc/source/ximmio_nl.md) / mijnblink.nl
 - [PreZero](/doc/source/hvcgroep_nl.md) / prezero.nl
 - [Purmerend](/doc/source/hvcgroep_nl.md) / purmerend.nl

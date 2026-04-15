@@ -13729,6 +13729,14 @@
       "id": "ximmio_nl"
     },
     {
+      "title": "Mijn Afval Zaken - BUCH",
+      "module": "hvcgroep_nl",
+      "default_params": {
+        "service": "mijnafvalzaken"
+      },
+      "id": "hvcgroep_nl"
+    },
+    {
       "title": "Mijn Blink",
       "module": "ximmio_nl",
       "default_params": {
