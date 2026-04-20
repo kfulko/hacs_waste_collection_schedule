@@ -39,19 +39,19 @@ Example:
 
 ```yaml
 title: Entsorgungsgesellschaft Görlitz-Löbau-Zittau
-url: https://www.abfall-eglz.de
+url: https://www.eglz-abfall.de
 howto: 
   en: |
-      - Go to <https://www.abfall-eglz.de/abfallkalender.html> and select your municipality.  
+      - Go to <https://www.eglz-abfall.de/service/abfallkalender> and select your municipality.
       - Right-click on `Entsorgungstermine als iCalendar herunterladen` and copy link address.
       - Replace the `url` in the example configuration with this link.
    de: |
-      - Gehen Sie zu <https://www.abfall-eglz.de/abfallkalender.html> und wählen Sie Ihre Gemeinde aus.
+      - Gehen Sie zu <https://www.eglz-abfall.de/service/abfallkalender> und wählen Sie Ihre Gemeinde aus.
       - Klicken Sie mit der rechten Maustaste auf `Entsorgungstermine als iCalendar herunterladen` und kopieren Sie den Link.
       - Ersetzen Sie die `url` in der Beispielkonfiguration durch diesen Link.
 test_cases:
    Oppach:
-       url: "https://www.abfall-eglz.de/abfallkalender.html?ort=Oppach&ortsteil=Ort+Oppach&strasse=&ics=1"
+       url: "https://www.eglz-abfall.de/service/abfallkalender?Ort=Oppach&format=icalc"
        split_at: " & "
 ```
 
@@ -124,4 +124,6 @@ To use it:
 
 ### Test before submitting using pytest
 
-To ensure that the source script is working as expected, it is recommended to install and run `pytest` in the `waste_collection_schedule` directory. This will run some additional tests making sure attributes are set correctly and all required files are present and update_docu_links run successfully. Pytest does not test the source script itself.
+To ensure that the source script is working as expected, it is recommended to install and run `pytest` in the `hacs_waste_collection_schedule` directory.
+This will run some additional tests making sure attributes are set correctly and all required files are present and update_docu_links run successfully.
+Pytest does not test the source script itself.

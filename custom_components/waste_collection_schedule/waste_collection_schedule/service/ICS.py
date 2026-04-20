@@ -44,10 +44,31 @@ class ICS:
             ics_data,
         )
 
+        # Fix truncated DTSTART/DTEND values where the time portion is missing
+        # after the 'T' separator (e.g. "DTSTART;TZID=Europe/Berlin:20260505T").
+        ics_data = re.sub(
+            r"(DT(?:START|END)[^:]*:\d{8})T(\r?\n)",
+            r"\g<1>T000000\g<2>",
+            ics_data,
+        )
+
         # parse ics data
         events: List[Any] = icalevents.events(
             start=start_date, end=end_date, string_content=ics_data.encode()
         )
+
+        # Inherit summary for recurrence exceptions that lack one.
+        # Some ICS generators omit SUMMARY on replacement VEVENTs
+        # (those with RECURRENCE-ID), expecting clients to inherit
+        # from the parent recurring event.
+        uid_summaries: dict = {}
+        for e in events:
+            if e.summary and e.recurring:
+                uid_summaries[e.uid] = e.summary
+        for e in events:
+            if not e.summary and hasattr(e, "recurrence_id") and e.recurrence_id:
+                if e.uid in uid_summaries:
+                    e.summary = uid_summaries[e.uid]
 
         entries: List[Tuple[datetime.date, str]] = []
 

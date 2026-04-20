@@ -8,7 +8,7 @@ howto:
     - Go to your regions collection dates form.
     - Select you location and your desired waste types.
     - Right click -> copy link address of the `ICS` button.
-    - Replace the `url` in the example configuration with this link.
+    - Use this link as the `url` parameter.
     - Replace the year in the URL with `{%Y}` (`...timeperiod=20240101-20241231` -> `...timeperiod={%Y}0101-{%Y}1231`).
 country: de
 extra_info:
@@ -18,13 +18,13 @@ extra_info:
   - title: Abfallwirtschaft Landkreis Göppingen
     url: https://www.awb-gp.de/
     country: de
+  - title: Abfallwirtschaft Ortenaukreis
+    url: https://www.abfallwirtschaft-ortenaukreis.de/
+    country: de
   - title: Zollernalbkreis
     url: https://www.zollernalbkreis.de/
     country: de
 
-
-
 test_cases:
   Göppingen:
-    url: 
-      https://api.abfall.io/?key=f35bd08b1d18d9c81fcdee75dbcce5d3&mode=export&idhousenumber=2859&wastetypes=20,17,59,18,19,60&timeperiod={%Y}0101-{%Y}1231&showinactive=false&type=ics
+    url: https://api.abfall.io/?key=f35bd08b1d18d9c81fcdee75dbcce5d3&mode=export&idhousenumber=2859&wastetypes=20,17,59,18,19,60&timeperiod={%Y}0101-{%Y}1231&showinactive=false&type=ics
