@@ -5440,6 +5440,12 @@
       "id": "abfall_io"
     },
     {
+      "title": "Abfall.IO / AbfallPlus (GraphQL)",
+      "module": "abfall_io_graphql",
+      "default_params": {},
+      "id": "abfall_io_graphql"
+    },
+    {
       "title": "Abfallbehandlungsgesellschaft Havelland mbH (abh)",
       "module": "abfall_havelland_de",
       "default_params": {},
@@ -8784,6 +8790,14 @@
         "service_id": "mymuell"
       },
       "id": "jumomind_de"
+    },
+    {
+      "title": "Landkreis M\u00e4rkisch-Oderland",
+      "module": "abfall_io_graphql",
+      "default_params": {
+        "key": "efb75cbd1f08fae1d4e47ae72a85c655"
+      },
+      "id": "abfall_io_graphql"
     },
     {
       "title": "Landkreis M\u00fchldorf a. Inn",

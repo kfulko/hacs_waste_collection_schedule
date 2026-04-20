@@ -918,6 +918,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Abfall Stuttgart](/doc/source/stuttgart_de.md) / service.stuttgart.de
 - [Abfall-Wirtschafts-Verband Nordschwaben](/doc/source/awido_de.md) / awv-nordschwaben.de
 - [Abfall.IO / AbfallPlus](/doc/source/abfall_io.md) / abfallplus.de
+- [Abfall.IO / AbfallPlus (GraphQL)](/doc/source/abfall_io_graphql.md) / abfallplus.de
 - [Abfallbehandlungsgesellschaft Havelland mbH (abh)](/doc/source/abfall_havelland_de.md) / abfall-havelland.de
 - [Abfallbewirtschaftung Ostalbkreis](/doc/source/abfall_io.md) / goa-online.de
 - [Abfallentsorgung Kreis Kassel](/doc/ics/abfall_kreis_kassel_de.md) / abfall-kreis-kassel.de
@@ -1364,6 +1365,7 @@ If your service provider is not listed, feel free to open a [source request issu
 - [Landkreis Lüchow-Dannenberg](/doc/ics/abfall_app_net.md) / luechow-dannenberg.de
 - [Landkreis Main-Spessart](/doc/source/app_abfallplus_de.md) / Abfall+ App: abfallmsp
 - [Landkreis Mettmann (MyMuell App)](/doc/source/jumomind_de.md) / mymuell.de
+- [Landkreis Märkisch-Oderland](/doc/source/abfall_io_graphql.md) / maerkisch-oderland.de
 - [Landkreis Mühldorf a. Inn](/doc/source/awido_de.md) / lra-mue.de
 - [Landkreis Neumarkt](/doc/source/abfuhrplan_landkreis_neumarkt_de.md) / abfuhrplan-landkreis-neumarkt.de
 - [Landkreis Nordwestmecklenburg](/doc/source/geoport_nwm_de.md) / geoport-nwm.de
@@ -2923,6 +2925,35 @@ If you'd like to help with any of these, please raise an [issue](https://github.
 # Code of Conduct
  Not sure if this is relevant for this project.
 -->
+
+# Known Issues
+
+The following waste service providers return errors when running the test_source script:
+
+- `banyule_vic_gov_au`: JSONDecodeError, caused by not supported Captcha wall
+- `awn_de`: all tests return 0 entries
+
+If you can fix any of these, please raise a Pull Request with the updates.
+
+---
+
+## Home Assistant Hangs
+
+**Problem:** Home Assistant hangs during restart or configuration check. This occurs typically after Waste Collection Schedule has been added to the configuration.
+
+**Root Cause:** Home Assistant tries to install the required Python packages and fails somehow. This is not an issue of Waste Collection Schedule.
+
+**Solution:** Try to reinstall Waste Collection Schedule (if you are using HACS) or install the required Python packages manually. This list of required packages can be found in [manifest.json](https://github.com/mampfes/hacs_waste_collection_schedule/blob/master/custom_components/waste_collection_schedule/manifest.json#L9).
+
+The actual procedure depends on your Home Assistant installation type.
+
+Example:
+
+```bash
+sudo docker exec -it homeassistant /bin/bash
+pip list
+pip install icalevents  # in case icalevents is missing
+```
 
 # License
 
